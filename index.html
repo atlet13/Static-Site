@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Security Group</title>
+<title>ARES Security Group</title>
 
 <style>
 body {
@@ -50,6 +50,7 @@ body {
   background: linear-gradient(180deg, #0a0a0a, #111);
   padding: 80px 30px;
   transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1001;
 }
 
 .side-menu.active {
@@ -68,28 +69,58 @@ body {
   color: gold;
 }
 
-/* HEADER */
-header {
+/* HERO (ГОЛОВНИЙ ЕКРАН) */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 100px 20px;
+  overflow: hidden;
 }
 
-h1 {
-  font-size: 36px;
+/* ВІДЕО ФОН (поки без відео — просто чорний фон) */
+.hero video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  opacity: 0.4;
 }
 
-.btn {
+/* ТЕКСТ ПОВЕРХ */
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 38px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+/* КНОПКА */
+.btn-main {
+  margin-top: 25px;
+  padding: 15px 30px;
   background: gold;
   color: black;
-  padding: 15px 25px;
   text-decoration: none;
+  font-size: 18px;
   display: inline-block;
-  margin-top: 20px;
 }
 
-/* SECTION */
+/* СЕКЦІЇ */
 section {
-  padding: 50px 20px;
+  padding: 60px 20px;
   text-align: center;
 }
 
@@ -109,24 +140,6 @@ section {
 /* CTA */
 .cta {
   background: #111;
-  padding: 50px 20px;
-}
-
-.btn-call, .btn-tg {
-  display: inline-block;
-  margin: 10px;
-  padding: 15px 25px;
-  text-decoration: none;
-}
-
-.btn-call {
-  background: gold;
-  color: black;
-}
-
-.btn-tg {
-  background: #0088cc;
-  color: white;
 }
 
 /* FLOAT BUTTONS */
@@ -165,18 +178,29 @@ section {
 <div id="overlay" onclick="toggleMenu()"></div>
 
 <div id="sideMenu" class="side-menu">
-  <a href="#">Головна</a>
   <a href="#services">Послуги</a>
   <a href="#prices">Ціни</a>
   <a href="#contact">Контакти</a>
 </div>
 
-<header>
-  <h1>Особиста охорона</h1>
-  <p>Безпека. Конфіденційність. Контроль.</p>
-  <a href="tel:+380XXXXXXXXX" class="btn">Подзвонити</a>
-</header>
+<!-- ГОЛОВНИЙ ЕКРАН -->
+<div class="hero">
 
+  <!-- СЮДИ ПОТІМ ВСТАВИМО ВІДЕО -->
+  <!-- <video autoplay muted loop>
+    <source src="video.mp4" type="video/mp4">
+  </video> -->
+
+  <div class="hero-content">
+    <h1>ARES Security Group</h1>
+    <p>Хвилюєтесь за свою безпеку чи близьких?</p>
+    <p>Ми забезпечимо повний контроль та захист.</p>
+
+    <a href="#services" class="btn-main">Замовити охорону</a>
+  </div>
+</div>
+
+<!-- ПОСЛУГИ -->
 <section id="services">
   <h2>Послуги</h2>
   <div class="cards">
@@ -188,43 +212,28 @@ section {
   </div>
 </section>
 
+<!-- ЦІНИ -->
 <section id="prices">
   <h2>Вартість персоналу</h2>
 
   <p><b>Охоронець (12 годин)</b><br>від 2500 – 4000 грн / зміна</p>
   <p><b>Водій-охоронець (12 годин)</b><br>від 2000 – 3000 грн / зміна</p>
 
-  <p>Формат роботи: денні / нічні зміни по 12 годин</p>
-
-  <p><i>Кінцева вартість залежить від задачі та кількості персоналу</i></p>
+  <p>Кінцева вартість залежить від задачі</p>
 </section>
 
-<section>
-  <h2>Особиста охорона та супровід</h2>
-  <p>
-  Забезпечуємо безпечне переміщення клієнта як пішки, так і на транспорті.
-  Можливе залучення декількох спеціалістів залежно від рівня задачі.
-  </p>
-</section>
-
-<section>
-  <h2>Комплексна безпека</h2>
-  <p>
-  Організовуємо фізичну охорону, відеоспостереження та сигналізацію.
-  Рішення підбирається індивідуально під об'єкт.
-  </p>
-</section>
-
+<!-- КОНТАКТИ -->
 <section class="cta" id="contact">
   <h2>Потрібна охорона?</h2>
-  <p>Зв’яжіться з нами прямо зараз</p>
 
-  <a href="tel:+380XXXXXXXXX" class="btn-call">📞 Подзвонити</a>
-  <a href="https://t.me/your_username" class="btn-tg">💬 Telegram</a>
+  <a href="tel:+380XXXXXXXXX" class="btn-main">📞 Подзвонити</a>
+  <br><br>
+  <a href="https://t.me/your_username" class="btn-main">💬 Telegram</a>
 
-  <p>Працюємо по Києву та Київській області</p>
+  <p>Працюємо по Києву та області</p>
 </section>
 
+<!-- FLOAT -->
 <a href="tel:+380XXXXXXXXX" class="call-float">📞</a>
 <a href="https://t.me/your_username" class="tg-float">💬</a>
 
