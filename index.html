@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Group</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0a0a0a;
+  color: white;
+}
+
+/* MENU BUTTON */
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+/* OVERLAY */
+#overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s;
+}
+
+#overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* MENU */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 75%;
+  height: 100%;
+  background: linear-gradient(180deg, #0a0a0a, #111);
+  padding: 80px 30px;
+  transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.side-menu.active {
+  right: 0;
+}
+
+.side-menu a {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 25px;
+  text-decoration: none;
+  color: white;
+}
+
+.side-menu a:hover {
+  color: gold;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+.btn {
+  background: gold;
+  color: black;
+  padding: 15px 25px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+/* SECTION */
+section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  width: 260px;
+  background: #111;
+  margin: 10px;
+  padding: 20px;
+}
+
+/* CTA */
+.cta {
+  background: #111;
+  padding: 50px 20px;
+}
+
+.btn-call, .btn-tg {
+  display: inline-block;
+  margin: 10px;
+  padding: 15px 25px;
+  text-decoration: none;
+}
+
+.btn-call {
+  background: gold;
+  color: black;
+}
+
+.btn-tg {
+  background: #0088cc;
+  color: white;
+}
+
+/* FLOAT BUTTONS */
+.call-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: gold;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tg-float {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: #0088cc;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<div id="overlay" onclick="toggleMenu()"></div>
+
+<div id="sideMenu" class="side-menu">
+  <a href="#">Головна</a>
+  <a href="#services">Послуги</a>
+  <a href="#prices">Ціни</a>
+  <a href="#contact">Контакти</a>
+</div>
+
+<header>
+  <h1>Особиста охорона</h1>
+  <p>Безпека. Конфіденційність. Контроль.</p>
+  <a href="tel:+380XXXXXXXXX" class="btn">Подзвонити</a>
+</header>
+
+<section id="services">
+  <h2>Послуги</h2>
+  <div class="cards">
+    <div class="card">Особиста охорона</div>
+    <div class="card">Супровід (пішки / авто)</div>
+    <div class="card">Водій-охоронець</div>
+    <div class="card">Охорона офісу</div>
+    <div class="card">Охорона території</div>
+  </div>
+</section>
+
+<section id="prices">
+  <h2>Вартість персоналу</h2>
+
+  <p><b>Охоронець (12 годин)</b><br>від 2500 – 4000 грн / зміна</p>
+  <p><b>Водій-охоронець (12 годин)</b><br>від 2000 – 3000 грн / зміна</p>
+
+  <p>Формат роботи: денні / нічні зміни по 12 годин</p>
+
+  <p><i>Кінцева вартість залежить від задачі та кількості персоналу</i></p>
+</section>
+
+<section>
+  <h2>Особиста охорона та супровід</h2>
+  <p>
+  Забезпечуємо безпечне переміщення клієнта як пішки, так і на транспорті.
+  Можливе залучення декількох спеціалістів залежно від рівня задачі.
+  </p>
+</section>
+
+<section>
+  <h2>Комплексна безпека</h2>
+  <p>
+  Організовуємо фізичну охорону, відеоспостереження та сигналізацію.
+  Рішення підбирається індивідуально під об'єкт.
+  </p>
+</section>
+
+<section class="cta" id="contact">
+  <h2>Потрібна охорона?</h2>
+  <p>Зв’яжіться з нами прямо зараз</p>
+
+  <a href="tel:+380XXXXXXXXX" class="btn-call">📞 Подзвонити</a>
+  <a href="https://t.me/your_username" class="btn-tg">💬 Telegram</a>
+
+  <p>Працюємо по Києву та Київській області</p>
+</section>
+
+<a href="tel:+380XXXXXXXXX" class="call-float">📞</a>
+<a href="https://t.me/your_username" class="tg-float">💬</a>
+
+<script>
+function toggleMenu() {
+  document.getElementById("sideMenu").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
