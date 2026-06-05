@@ -11,9 +11,10 @@ body {
   font-family: Arial;
   background: #0a0a0a;
   color: white;
+  scroll-behavior: smooth;
 }
 
-/* MENU BUTTON */
+/* MENU */
 .menu-btn {
   position: fixed;
   top: 20px;
@@ -23,7 +24,6 @@ body {
   z-index: 1002;
 }
 
-/* OVERLAY */
 #overlay {
   position: fixed;
   width: 100%;
@@ -40,16 +40,15 @@ body {
   pointer-events: all;
 }
 
-/* MENU */
 .side-menu {
   position: fixed;
   top: 0;
   right: -100%;
   width: 75%;
   height: 100%;
-  background: linear-gradient(180deg, #0a0a0a, #111);
+  background: #111;
   padding: 80px 30px;
-  transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: 0.5s cubic-bezier(0.22,1,0.36,1);
   z-index: 1001;
 }
 
@@ -65,11 +64,7 @@ body {
   color: white;
 }
 
-.side-menu a:hover {
-  color: gold;
-}
-
-/* HERO (ГОЛОВНИЙ ЕКРАН) */
+/* HERO */
 .hero {
   position: relative;
   height: 100vh;
@@ -80,34 +75,40 @@ body {
   overflow: hidden;
 }
 
-/* ВІДЕО ФОН (поки без відео — просто чорний фон) */
 .hero video {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
-  height: 100%;
+  width: 120%;
+  height: 120%;
   object-fit: cover;
   transform: translate(-50%, -50%);
-  opacity: 0.4;
+  opacity: 0.25;
 }
 
-/* ТЕКСТ ПОВЕРХ */
 .hero-content {
   position: relative;
   z-index: 2;
 }
 
-.hero h1 {
-  font-size: 38px;
+/* ANIMATIONS */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s ease forwards;
 }
 
-.hero p {
-  font-size: 18px;
-  margin-top: 10px;
+.fade-up.delay-1 { animation-delay: 0.5s; }
+.fade-up.delay-2 { animation-delay: 1s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* КНОПКА */
+/* BUTTON */
 .btn-main {
   margin-top: 25px;
   padding: 15px 30px;
@@ -116,9 +117,14 @@ body {
   text-decoration: none;
   font-size: 18px;
   display: inline-block;
+  transition: 0.3s;
 }
 
-/* СЕКЦІЇ */
+.btn-main:hover {
+  transform: scale(1.05);
+}
+
+/* SECTIONS */
 section {
   padding: 60px 20px;
   text-align: center;
@@ -135,11 +141,6 @@ section {
   background: #111;
   margin: 10px;
   padding: 20px;
-}
-
-/* CTA */
-.cta {
-  background: #111;
 }
 
 /* FLOAT BUTTONS */
@@ -174,7 +175,6 @@ section {
 <body>
 
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
-
 <div id="overlay" onclick="toggleMenu()"></div>
 
 <div id="sideMenu" class="side-menu">
@@ -183,24 +183,32 @@ section {
   <a href="#contact">Контакти</a>
 </div>
 
-<!-- ГОЛОВНИЙ ЕКРАН -->
+<!-- HERO -->
 <div class="hero">
 
-  <!-- СЮДИ ПОТІМ ВСТАВИМО ВІДЕО -->
-  <!-- <video autoplay muted loop>
-    <source src="video.mp4" type="video/mp4">
-  </video> -->
+<video autoplay muted loop playsinline>
+  <source src="video.mp4" type="video/mp4">
+</video>
 
-  <div class="hero-content">
-    <h1>ARES Security Group</h1>
-    <p>Хвилюєтесь за свою безпеку чи близьких?</p>
-    <p>Ми забезпечимо повний контроль та захист.</p>
+<div class="hero-content">
+  <h1 class="fade-up">ARES Security Group</h1>
 
-    <a href="#services" class="btn-main">Замовити охорону</a>
-  </div>
+  <p class="fade-up delay-1">
+    Хвилюєтесь за свою безпеку чи близьких?
+  </p>
+
+  <p class="fade-up delay-1">
+    Ми забезпечимо повний контроль та захист.
+  </p>
+
+  <a href="#services" class="btn-main fade-up delay-2">
+    Замовити охорону
+  </a>
 </div>
 
-<!-- ПОСЛУГИ -->
+</div>
+
+<!-- SERVICES -->
 <section id="services">
   <h2>Послуги</h2>
   <div class="cards">
@@ -212,19 +220,16 @@ section {
   </div>
 </section>
 
-<!-- ЦІНИ -->
+<!-- PRICES -->
 <section id="prices">
   <h2>Вартість персоналу</h2>
-
-  <p><b>Охоронець (12 годин)</b><br>від 2500 – 4000 грн / зміна</p>
-  <p><b>Водій-охоронець (12 годин)</b><br>від 2000 – 3000 грн / зміна</p>
-
-  <p>Кінцева вартість залежить від задачі</p>
+  <p><b>Охоронець (12 годин)</b><br>від 2500 – 4000 грн</p>
+  <p><b>Водій-охоронець</b><br>від 2000 – 3000 грн</p>
 </section>
 
-<!-- КОНТАКТИ -->
-<section class="cta" id="contact">
-  <h2>Потрібна охорона?</h2>
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Контакти</h2>
 
   <a href="tel:+380XXXXXXXXX" class="btn-main">📞 Подзвонити</a>
   <br><br>
@@ -233,7 +238,6 @@ section {
   <p>Працюємо по Києву та області</p>
 </section>
 
-<!-- FLOAT -->
 <a href="tel:+380XXXXXXXXX" class="call-float">📞</a>
 <a href="https://t.me/your_username" class="tg-float">💬</a>
 
