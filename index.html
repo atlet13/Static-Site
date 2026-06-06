@@ -4,1042 +4,262 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ARES Security Group — Преміум охорона Київ</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c9a84c;--gold-light:#e8c96a;--gold-dim:rgba(201,168,76,0.15);
+  --black:#0a0a0a;--dark:#111111;--dark2:#161616;--dark3:#1e1e1e;
+  --text:#e8e4dc;--text-muted:#8a8072;--border:rgba(201,168,76,0.18);
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'Barlow',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+.cursor{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(201,168,76,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease-out}
 
-  :root {
-    --gold: #c9a84c;
-    --gold-light: #e8c96a;
-    --gold-dim: rgba(201,168,76,0.15);
-    --black: #0a0a0a;
-    --dark: #111111;
-    --dark2: #161616;
-    --dark3: #1e1e1e;
-    --text: #e8e4dc;
-    --text-muted: #8a8072;
-    --border: rgba(201,168,76,0.18);
-  }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 40px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(10,10,10,.9),transparent);transition:background .4s,border-bottom .4s}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.nav-logo span{color:var(--text)}
+.burger{background:none;border:none;cursor:none;width:44px;height:44px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px}
+.burger span{display:block;height:1px;background:var(--text);transition:all .4s cubic-bezier(.23,1,.32,1)}
+.burger span:nth-child(1){width:28px}
+.burger span:nth-child(2){width:20px}
+.burger span:nth-child(3){width:24px}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);width:24px;background:var(--gold)}
+.burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);width:24px;background:var(--gold)}
 
-  html { scroll-behavior: smooth; }
+/* SIDE MENU */
+.overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);opacity:0;pointer-events:none;transition:opacity .4s;backdrop-filter:blur(4px)}
+.overlay.open{opacity:1;pointer-events:all}
+.side-menu{position:fixed;top:0;right:-110vw;bottom:0;width:min(360px,85vw);background:var(--dark2);z-index:300;padding:80px 48px 48px;transition:right .5s cubic-bezier(.23,1,.32,1);border-left:1px solid var(--border);display:flex;flex-direction:column;visibility:hidden}
+.side-menu.open{right:0;visibility:visible}
+.menu-divider{width:32px;height:1px;background:var(--gold);margin-bottom:48px}
+.menu-nav a{display:block;font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,40px);font-weight:300;color:var(--text);text-decoration:none;line-height:1.4;margin-bottom:4px;letter-spacing:.02em;transition:color .3s,transform .3s;position:relative}
+.menu-nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--gold);transition:width .4s cubic-bezier(.23,1,.32,1)}
+.menu-nav a:hover{color:var(--gold);transform:translateX(8px)}
+.menu-nav a:hover::after{width:40px}
+.menu-contact{margin-top:auto;font-size:12px;letter-spacing:.2em;color:var(--text-muted);text-transform:uppercase}
+.menu-contact a{color:var(--gold);text-decoration:none}
 
-  body {
-    background: var(--black);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-    cursor: none;
-  }
+/* HERO */
+#hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,10,.6),rgba(10,10,10,.2) 50%,rgba(10,10,10,.7))}
+.hero-line-left{position:absolute;left:40px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--border) 30%,var(--border) 70%,transparent)}
+.hero-line-right{position:absolute;right:40px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--border) 30%,var(--border) 70%,transparent)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;max-width:900px}
+.hero-badge{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:28px;opacity:0;transform:translateY(20px);animation:fadeUp .8s .2s forwards}
+.hero-badge::before,.hero-badge::after{content:'──';margin:0 12px;opacity:.4}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,9vw,110px);font-weight:300;line-height:.95;letter-spacing:-.01em;margin-bottom:32px;opacity:0;transform:translateY(30px);animation:fadeUp 1s .5s forwards}
+.hero-title em{font-style:normal;color:var(--gold);display:block}
+.hero-sub{font-size:clamp(15px,2vw,18px);font-weight:300;color:rgba(232,228,220,.72);line-height:1.7;max-width:520px;margin:0 auto 48px;opacity:0;transform:translateY(20px);animation:fadeUp .9s .8s forwards}
+.hero-cta{opacity:0;transform:translateY(20px);animation:fadeUp .9s 1.1s forwards}
+.btn-primary{display:inline-flex;align-items:center;gap:12px;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;padding:18px 44px;cursor:none;text-decoration:none;transition:background .4s,color .4s,transform .3s,box-shadow .4s;position:relative;overflow:hidden}
+.btn-primary::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .4s cubic-bezier(.23,1,.32,1);z-index:0}
+.btn-primary:hover::before{transform:translateX(0)}
+.btn-primary:hover{color:var(--black);transform:translateY(-2px);box-shadow:0 12px 40px rgba(201,168,76,.25)}
+.btn-primary span,.btn-primary svg{position:relative;z-index:1}
+.btn-primary:hover svg{transform:translateX(4px)}
+.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s 1.6s forwards;z-index:2}
+.hero-scroll span{font-size:10px;letter-spacing:.25em;color:var(--text-muted);text-transform:uppercase}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollDown 2s 2s infinite}
+@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-  /* CUSTOM CURSOR */
-  .cursor {
-    width: 8px; height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-  }
-  .cursor-ring {
-    width: 32px; height: 32px;
-    border: 1px solid rgba(201,168,76,0.5);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9998;
-    transform: translate(-50%,-50%);
-    transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
-  }
-  body:has(a:hover) .cursor-ring,
-  body:has(button:hover) .cursor-ring { width: 48px; height: 48px; border-color: var(--gold); }
+/* SECTIONS */
+section{position:relative;z-index:2}
+.section-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold);opacity:.4}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;line-height:1.1;letter-spacing:-.01em;margin-bottom:20px}
+.section-desc{font-size:15px;font-weight:300;color:rgba(232,228,220,.6);line-height:1.8;max-width:480px}
 
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; opacity: 0.4;
-  }
+/* SERVICES */
+#services{padding:120px 40px;background:var(--dark)}
+.services-inner{max-width:1200px;margin:0 auto}
+.services-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:80px}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.service-card{background:var(--dark);padding:48px 40px;position:relative;overflow:hidden;transition:background .4s;cursor:none}
+.service-card::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.23,1,.32,1)}
+.service-card:hover{background:var(--dark3)}
+.service-card:hover::before{transform:scaleX(1)}
+.service-num{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--gold);opacity:.5;letter-spacing:.1em;margin-bottom:28px}
+.service-icon{width:48px;height:48px;margin-bottom:24px;color:var(--gold);opacity:.8}
+.service-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:600;letter-spacing:.05em;margin-bottom:12px;text-transform:uppercase}
+.service-desc{font-size:14px;font-weight:300;color:rgba(232,228,220,.55);line-height:1.7}
+.service-arrow{position:absolute;bottom:24px;right:28px;color:var(--gold);opacity:0;transition:opacity .3s,transform .3s;transform:translateX(-8px)}
+.service-card:hover .service-arrow{opacity:1;transform:translateX(0)}
+.open-hint{position:absolute;bottom:24px;right:28px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:.2em;color:var(--gold);opacity:0;transition:opacity .3s;text-transform:uppercase}
+.service-card:hover .open-hint{opacity:1}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 28px 40px;
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%);
-  }
-  .nav-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px; font-weight: 600;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    text-transform: uppercase;
-  }
-  .nav-logo span { color: var(--text); }
-  .burger {
-    background: none; border: none; cursor: none;
-    width: 44px; height: 44px;
-    display: flex; flex-direction: column;
-    align-items: flex-end; justify-content: center; gap: 6px;
-  }
-  .burger span {
-    display: block; height: 1px; background: var(--text);
-    transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
-  }
-  .burger span:nth-child(1) { width: 28px; }
-  .burger span:nth-child(2) { width: 20px; }
-  .burger span:nth-child(3) { width: 24px; }
-  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); width: 24px; background: var(--gold); }
-  .burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); width: 24px; background: var(--gold); }
+/* HOW IT WORKS */
+#how{padding:100px 40px;background:var(--black);overflow:hidden}
+.how-inner{max-width:1100px;margin:0 auto}
+.how-header{text-align:center;margin-bottom:72px}
+.how-header .section-label{justify-content:center}
+.how-header .section-label::after{display:none}
+.how-header .section-label::before{content:'';flex:1;max-width:40px;height:1px;background:var(--gold);opacity:.4}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.how-steps::before{content:'';position:absolute;top:52px;left:calc(16.67% + 20px);right:calc(16.67% + 20px);height:1px;background:var(--gold);opacity:.2}
+.how-step{padding:0 32px 48px;text-align:center}
+.how-step-num{width:64px;height:64px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 32px;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gold);background:var(--black);position:relative;z-index:1;transition:border-color .4s,background .4s}
+.how-step:hover .how-step-num{border-color:var(--gold);background:var(--gold-dim)}
+.how-step-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.how-step-desc{font-size:13px;font-weight:300;color:rgba(232,228,220,.5);line-height:1.75}
+.progress-list{display:flex;flex-direction:column;gap:20px;margin-top:64px}
+.progress-head{display:flex;justify-content:space-between;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.progress-head span:last-child{color:var(--gold)}
+.progress-track{height:1px;background:rgba(255,255,255,.08);position:relative;overflow:hidden}
+.progress-fill{position:absolute;top:0;left:0;height:100%;background:linear-gradient(to right,var(--gold),var(--gold-light));width:0;transition:width 1.4s cubic-bezier(.23,1,.32,1)}
 
-  /* SIDE MENU */
-  .overlay {
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.7);
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.4s;
-    backdrop-filter: blur(4px);
-  }
-  .overlay.open { opacity: 1; pointer-events: all; }
-  .side-menu {
-    position: fixed; top: 0; right: -110vw; bottom: 0;
-    width: min(360px, 85vw);
-    background: var(--dark2);
-    z-index: 300;
-    padding: 80px 48px 48px;
-    transition: right 0.5s cubic-bezier(0.23,1,0.32,1);
-    border-left: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    visibility: hidden;
-  }
-  .side-menu.open {
-    visibility: visible;
-  }
-  .side-menu.open { right: 0; visibility: visible; }
-  .menu-divider {
-    width: 32px; height: 1px;
-    background: var(--gold);
-    margin-bottom: 48px;
-  }
-  .menu-nav a {
-    display: block;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(32px, 5vw, 42px);
-    font-weight: 300;
-    color: var(--text);
-    text-decoration: none;
-    line-height: 1.3;
-    margin-bottom: 8px;
-    letter-spacing: 0.02em;
-    transition: color 0.3s, transform 0.3s;
-    transform: translateX(0);
-    position: relative;
-  }
-  .menu-nav a::after {
-    content: '';
-    position: absolute; bottom: -2px; left: 0;
-    width: 0; height: 1px;
-    background: var(--gold);
-    transition: width 0.4s cubic-bezier(0.23,1,0.32,1);
-  }
-  .menu-nav a:hover { color: var(--gold); transform: translateX(8px); }
-  .menu-nav a:hover::after { width: 40px; }
-  .menu-contact {
-    margin-top: auto;
-    font-size: 12px; letter-spacing: 0.2em;
-    color: var(--text-muted);
-    text-transform: uppercase;
-  }
-  .menu-contact a { color: var(--gold); text-decoration: none; }
+/* PRICES */
+#prices{padding:120px 40px;background:var(--dark);overflow:hidden}
+.prices-inner{max-width:1200px;margin:0 auto}
+.prices-header{text-align:center;margin-bottom:80px}
+.prices-header .section-label{justify-content:center}
+.prices-header .section-label::after{display:none}
+.prices-header .section-label::before{content:'';flex:1;max-width:40px;height:1px;background:var(--gold);opacity:.4}
+.prices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;margin-bottom:48px}
+.price-card{background:var(--dark2);border:1px solid var(--border);padding:48px 40px;position:relative;overflow:hidden;transition:border-color .4s,transform .4s}
+.price-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px)}
+.price-card.featured{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));border-color:rgba(201,168,76,.4)}
+.price-card.featured::before{content:'ПОПУЛЯРНЕ';position:absolute;top:20px;right:-28px;background:var(--gold);color:var(--black);font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.2em;padding:5px 40px;transform:rotate(45deg)}
+.price-tag{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px}
+.price-range{font-size:13px;color:var(--text-muted);letter-spacing:.1em;margin-bottom:24px}
+.price-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.price-sub{font-size:13px;color:var(--text-muted);margin-bottom:28px;font-weight:300}
+.price-features{list-style:none}
+.price-features li{font-size:13px;font-weight:300;color:rgba(232,228,220,.6);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:10px}
+.price-features li::before{content:'';width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0}
+.price-note{text-align:center;font-size:13px;font-weight:300;color:var(--text-muted);letter-spacing:.05em}
+.price-note strong{color:var(--gold);font-weight:400}
 
-  /* HERO */
-  #hero {
-    position: relative; height: 100vh; min-height: 600px;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  #hero-video {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    opacity: 0.22;
-  }
-  .hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(10,10,10,0.6) 0%,
-      rgba(10,10,10,0.2) 50%,
-      rgba(10,10,10,0.7) 100%
-    );
-  }
-  .hero-line-left {
-    position: absolute; left: 40px; top: 0; bottom: 0; width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--border) 30%, var(--border) 70%, transparent);
-  }
-  .hero-line-right {
-    position: absolute; right: 40px; top: 0; bottom: 0; width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--border) 30%, var(--border) 70%, transparent);
-  }
-  .hero-content {
-    position: relative; z-index: 2;
-    text-align: center;
-    padding: 0 24px;
-    max-width: 900px;
-  }
-  .hero-badge {
-    display: inline-block;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.4em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 28px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.8s 0.2s forwards;
-  }
-  .hero-badge::before,
-  .hero-badge::after {
-    content: '──';
-    margin: 0 12px;
-    opacity: 0.4;
-  }
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 9vw, 110px);
-    font-weight: 300;
-    line-height: 0.95;
-    letter-spacing: -0.01em;
-    margin-bottom: 32px;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeUp 1s 0.5s forwards;
-  }
-  .hero-title em {
-    font-style: normal;
-    color: var(--gold);
-    display: block;
-  }
-  .hero-sub {
-    font-size: clamp(15px, 2vw, 18px);
-    font-weight: 300;
-    color: rgba(232,228,220,0.72);
-    line-height: 1.7;
-    max-width: 520px;
-    margin: 0 auto 48px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.9s 0.8s forwards;
-  }
-  .hero-cta {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.9s 1.1s forwards;
-  }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 12px;
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px; font-weight: 600;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    padding: 18px 44px;
-    cursor: none; text-decoration: none;
-    transition: background 0.4s, color 0.4s, transform 0.3s, box-shadow 0.4s;
-    position: relative; overflow: hidden;
-  }
-  .btn-primary::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: var(--gold);
-    transform: translateX(-101%);
-    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
-    z-index: 0;
-  }
-  .btn-primary:hover::before { transform: translateX(0); }
-  .btn-primary:hover { color: var(--black); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,0.25); }
-  .btn-primary span { position: relative; z-index: 1; }
-  .btn-primary svg { position: relative; z-index: 1; transition: transform 0.3s; }
-  .btn-primary:hover svg { transform: translateX(4px); }
-  .hero-scroll {
-    position: absolute; bottom: 36px; left: 50%;
-    transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    opacity: 0;
-    animation: fadeUp 1s 1.6s forwards;
-    z-index: 2;
-  }
-  .hero-scroll span {
-    font-size: 10px; letter-spacing: 0.25em;
-    color: var(--text-muted); text-transform: uppercase;
-  }
-  .scroll-line {
-    width: 1px; height: 48px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-    animation: scrollDown 2s 2s infinite;
-  }
-  @keyframes scrollDown {
-    0% { transform: scaleY(0); transform-origin: top; }
-    50% { transform: scaleY(1); transform-origin: top; }
-    51% { transform: scaleY(1); transform-origin: bottom; }
-    100% { transform: scaleY(0); transform-origin: bottom; }
-  }
+/* ORDER FORM */
+#order{padding:100px 40px;background:var(--black);position:relative;overflow:hidden}
+#order::before{content:'';position:absolute;right:-100px;top:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,.05),transparent 70%);pointer-events:none}
+.order-inner{max-width:780px;margin:0 auto}
+.order-header{margin-bottom:52px}
+.order-form{display:grid;gap:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:.3em;color:var(--text-muted);text-transform:uppercase}
+.form-input,.form-select,.form-textarea{background:var(--dark2);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;font-weight:300;padding:16px 20px;outline:none;transition:border-color .3s,background .3s;-webkit-appearance:none;border-radius:0}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text-muted);opacity:.6}
+.form-select{cursor:none}
+.form-select option{background:var(--dark2);color:var(--text)}
+.form-textarea{resize:vertical;min-height:100px}
+.form-submit{margin-top:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.form-note{font-size:12px;color:var(--text-muted);font-weight:300}
+.btn-submit{display:inline-flex;align-items:center;gap:12px;background:var(--gold);border:1px solid var(--gold);color:var(--black);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;padding:18px 48px;cursor:none;transition:background .3s,transform .3s,box-shadow .3s}
+.btn-submit:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(201,168,76,.3)}
+.form-success{display:none;text-align:center;padding:48px 32px;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.04)}
+.form-success-icon{font-size:48px;margin-bottom:16px}
+.form-success h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:12px}
+.form-success p{font-size:14px;color:var(--text-muted)}
 
-  /* SECTIONS */
-  section { position: relative; z-index: 2; }
+/* CONTACTS */
+#contacts{padding:120px 40px;background:var(--dark);overflow:hidden}
+.contacts-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
+.contacts-detail{font-size:14px;font-weight:300;color:rgba(232,228,220,.55);line-height:1.9;padding-left:20px;border-left:2px solid var(--gold);margin-bottom:48px}
+.contacts-geo{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:rgba(232,228,220,.5);margin-bottom:12px}
+.contacts-geo svg{color:var(--gold);flex-shrink:0;margin-top:2px}
+.contact-buttons{display:flex;flex-direction:column;gap:16px}
+.btn-contact{display:flex;align-items:center;gap:16px;padding:22px 32px;border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:none;transition:border-color .3s,background .3s,transform .3s;position:relative;overflow:hidden}
+.btn-contact::before{content:'';position:absolute;inset:0;background:var(--gold-dim);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.23,1,.32,1)}
+.btn-contact:hover{border-color:var(--gold);transform:translateX(8px)}
+.btn-contact:hover::before{transform:scaleX(1)}
+.btn-contact svg,.btn-contact .btn-icon{position:relative;z-index:1;flex-shrink:0}
+.btn-contact span{position:relative;z-index:1}
+.btn-call svg{color:var(--gold)}
+.btn-tg .tg-icon{color:#29abe2}
+.btn-num{margin-left:auto;font-size:11px;opacity:.4;letter-spacing:.05em;font-weight:300;font-family:'Barlow',sans-serif;position:relative;z-index:1}
 
-  .section-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.4em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1; max-width: 40px; height: 1px;
-    background: var(--gold); opacity: 0.4;
-  }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(36px, 5vw, 60px);
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    margin-bottom: 20px;
-  }
-  .section-desc {
-    font-size: 15px; font-weight: 300;
-    color: rgba(232,228,220,0.6);
-    line-height: 1.8; max-width: 480px;
-  }
+/* FOOTER */
+footer{background:var(--black);border-top:1px solid var(--border);padding:40px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;z-index:2}
+.footer-logo{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.footer-logo span{color:var(--text-muted)}
+.footer-mid{font-size:11px;letter-spacing:.2em;color:var(--text-muted);text-transform:uppercase;text-align:center}
+.footer-right{font-size:11px;color:var(--text-muted);letter-spacing:.1em}
 
-  /* SERVICES */
-  #services {
-    padding: 120px 40px;
-    background: var(--dark);
-  }
-  .services-inner {
-    max-width: 1200px; margin: 0 auto;
-  }
-  .services-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px; align-items: end;
-    margin-bottom: 80px;
-  }
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .service-card {
-    background: var(--dark);
-    padding: 48px 40px;
-    position: relative; overflow: hidden;
-    transition: background 0.4s;
-    cursor: none;
-  }
-  .service-card::before {
-    content: '';
-    position: absolute; bottom: 0; left: 0;
-    width: 100%; height: 2px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
-  }
-  .service-card:hover { background: var(--dark3); }
-  .service-card:hover::before { transform: scaleX(1); }
-  .service-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px; color: var(--gold); opacity: 0.5;
-    letter-spacing: 0.1em;
-    margin-bottom: 28px;
-  }
-  .service-icon {
-    width: 48px; height: 48px;
-    margin-bottom: 24px;
-    color: var(--gold);
-    opacity: 0.8;
-  }
-  .service-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px; font-weight: 600;
-    letter-spacing: 0.05em;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-  }
-  .service-desc {
-    font-size: 14px; font-weight: 300;
-    color: rgba(232,228,220,0.55);
-    line-height: 1.7;
-  }
-  .service-arrow {
-    position: absolute; bottom: 24px; right: 28px;
-    color: var(--gold); opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    transform: translateX(-8px);
-  }
-  .service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+/* FLOATING BUTTONS */
+.float-btns{position:fixed;bottom:100px;right:20px;display:flex;flex-direction:column;gap:12px;z-index:500}
+.float-order{width:auto;height:52px;border-radius:26px;background:var(--gold);display:flex;align-items:center;gap:10px;padding:0 20px;text-decoration:none;cursor:none;transition:transform .3s,box-shadow .3s,background .3s;box-shadow:0 4px 24px rgba(201,168,76,.35)}
+.float-order:hover{transform:scale(1.05) translateY(-2px);background:var(--gold-light);box-shadow:0 8px 32px rgba(201,168,76,.45)}
+.float-order span{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--black);white-space:nowrap}
+.float-order svg{color:var(--black);flex-shrink:0}
+.float-btn{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:none;transition:transform .3s,box-shadow .3s;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+.float-btn:hover{transform:scale(1.1) translateY(-2px)}
+.float-call{background:var(--gold)}
+.float-call svg{color:var(--black)}
+.float-tg{background:#229ed9}
+.float-tg svg{color:white}
+.float-pulse{position:relative}
+.float-pulse::before{content:'';position:absolute;inset:-6px;border:1px solid var(--gold);border-radius:50%;animation:pulse 2.5s infinite}
+@keyframes pulse{0%{opacity:.6;transform:scale(1)}100%{opacity:0;transform:scale(1.4)}}
 
-  /* PRICES */
-  #prices {
-    padding: 120px 40px;
-    background: var(--black);
-    overflow: hidden;
-  }
-  .prices-inner {
-    max-width: 1200px; margin: 0 auto;
-  }
-  .prices-header {
-    text-align: center; margin-bottom: 80px;
-  }
-  .prices-header .section-label { justify-content: center; }
-  .prices-header .section-label::after { display: none; }
-  .prices-header .section-label::before {
-    content: '';
-    flex: 1; max-width: 40px; height: 1px;
-    background: var(--gold); opacity: 0.4;
-  }
-  .prices-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-    margin-bottom: 48px;
-  }
-  .price-card {
-    background: var(--dark2);
-    border: 1px solid var(--border);
-    padding: 48px 40px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.4s, transform 0.4s;
-  }
-  .price-card:hover {
-    border-color: rgba(201,168,76,0.4);
-    transform: translateY(-4px);
-  }
-  .price-card.featured {
-    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
-    border-color: rgba(201,168,76,0.4);
-  }
-  .price-card.featured::before {
-    content: 'ПОПУЛЯРНЕ';
-    position: absolute; top: 20px; right: -28px;
-    background: var(--gold);
-    color: var(--black);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 0.2em;
-    padding: 5px 40px;
-    transform: rotate(45deg);
-  }
-  .price-tag {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 52px; font-weight: 300;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .price-range {
-    font-size: 13px; color: var(--text-muted);
-    letter-spacing: 0.1em;
-    margin-bottom: 24px;
-  }
-  .price-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px; font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .price-sub {
-    font-size: 13px; color: var(--text-muted);
-    margin-bottom: 28px;
-    font-weight: 300;
-  }
-  .price-features { list-style: none; }
-  .price-features li {
-    font-size: 13px; font-weight: 300;
-    color: rgba(232,228,220,0.6);
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .price-features li::before {
-    content: '';
-    width: 4px; height: 4px;
-    background: var(--gold);
-    border-radius: 50%; flex-shrink: 0;
-  }
-  .price-note {
-    text-align: center;
-    font-size: 13px; font-weight: 300;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-  }
-  .price-note strong { color: var(--gold); font-weight: 400; }
+/* SERVICE DETAIL PAGES */
+.service-page{display:none;position:fixed;inset:0;z-index:400;background:var(--black);overflow-y:auto;animation:pageIn .5s cubic-bezier(.23,1,.32,1)}
+.service-page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+.sp-header{position:sticky;top:0;z-index:10;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:20px 40px;display:flex;align-items:center;justify-content:space-between}
+.sp-back{display:flex;align-items:center;gap:10px;background:none;border:none;color:var(--text-muted);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;cursor:none;transition:color .3s}
+.sp-back:hover{color:var(--gold)}
+.sp-logo{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.sp-logo span{color:var(--text-muted)}
+.sp-body{max-width:900px;margin:0 auto;padding:60px 40px 100px}
+.sp-badge{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.sp-badge::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold);opacity:.4}
+.sp-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,7vw,72px);font-weight:300;line-height:1.05;margin-bottom:28px}
+.sp-intro{font-size:16px;font-weight:300;color:rgba(232,228,220,.65);line-height:1.85;max-width:640px;padding-left:20px;border-left:2px solid var(--gold);margin-bottom:64px}
+.sp-section-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:32px}
+.sp-duties{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:64px}
+.sp-duty{background:var(--dark);padding:32px 28px;transition:background .3s}
+.sp-duty:hover{background:var(--dark3)}
+.sp-duty-icon{width:36px;height:36px;margin-bottom:16px;color:var(--gold);opacity:.75}
+.sp-duty-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.sp-duty-list{list-style:none}
+.sp-duty-list li{font-size:13px;font-weight:300;color:rgba(232,228,220,.55);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.sp-duty-list li::before{content:'—';color:var(--gold);opacity:.5;flex-shrink:0;margin-top:1px}
+.sp-client-section{background:var(--dark2);border:1px solid var(--border);padding:40px;margin-bottom:48px}
+.sp-client-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:24px}
+.sp-client-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.sp-client-list li{font-size:14px;font-weight:300;color:rgba(232,228,220,.65);display:flex;align-items:flex-start;gap:12px;line-height:1.6}
+.sp-client-list li::before{content:'';width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:7px}
+.sp-cta{display:flex;gap:16px;flex-wrap:wrap;margin-top:48px}
 
-  /* CONTACTS */
-  #contacts {
-    padding: 120px 40px;
-    background: var(--dark);
-    overflow: hidden;
-  }
-  .contacts-inner {
-    max-width: 1200px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 100px; align-items: center;
-  }
-  .contacts-text {}
-  .contacts-text .section-title { margin-bottom: 32px; }
-  .contacts-detail {
-    font-size: 14px; font-weight: 300;
-    color: rgba(232,228,220,0.55);
-    line-height: 1.9;
-    padding-left: 20px;
-    border-left: 2px solid var(--gold);
-    margin-bottom: 48px;
-  }
-  .contacts-geo {
-    display: flex; align-items: flex-start; gap: 12px;
-    font-size: 14px; color: rgba(232,228,220,0.5);
-    margin-bottom: 12px;
-  }
-  .contacts-geo svg { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
-  .contact-buttons {
-    display: flex; flex-direction: column; gap: 16px;
-  }
-  .btn-contact {
-    display: flex; align-items: center; gap: 16px;
-    padding: 22px 32px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text);
-    text-decoration: none;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px; font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    cursor: none;
-    transition: border-color 0.3s, background 0.3s, transform 0.3s;
-    position: relative; overflow: hidden;
-  }
-  .btn-contact::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: var(--gold-dim);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
-  }
-  .btn-contact:hover { border-color: var(--gold); transform: translateX(8px); }
-  .btn-contact:hover::before { transform: scaleX(1); }
-  .btn-contact svg,
-  .btn-contact .btn-icon { position: relative; z-index: 1; flex-shrink: 0; }
-  .btn-contact span { position: relative; z-index: 1; }
-  .btn-call svg { color: var(--gold); }
-  .btn-tg .tg-icon { color: #29abe2; }
-  .btn-num {
-    margin-left: auto;
-    font-size: 11px;
-    opacity: 0.4; letter-spacing: 0.05em;
-    font-weight: 300;
-    font-family: 'Barlow', sans-serif;
-    position: relative; z-index: 1;
-  }
+/* ANIMATIONS */
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
 
-  /* DECORATIVE LARGE TEXT */
-  .deco-text {
-    position: absolute;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(100px, 16vw, 200px);
-    font-weight: 700;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(201,168,76,0.06);
-    letter-spacing: -0.02em;
-    pointer-events: none;
-    user-select: none;
-    line-height: 1;
-  }
-
-  /* FOOTER */
-  footer {
-    background: var(--black);
-    border-top: 1px solid var(--border);
-    padding: 40px;
-    display: flex; align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-    position: relative; z-index: 2;
-  }
-  .footer-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px; font-weight: 600;
-    letter-spacing: 0.3em; color: var(--gold);
-    text-transform: uppercase;
-  }
-  .footer-logo span { color: var(--text-muted); }
-  .footer-mid {
-    font-size: 11px; letter-spacing: 0.2em;
-    color: var(--text-muted); text-transform: uppercase;
-    text-align: center;
-  }
-  .footer-right {
-    font-size: 11px; color: var(--text-muted);
-    letter-spacing: 0.1em;
-  }
-
-  /* FLOATING BUTTONS */
-  .float-btns {
-    position: fixed; bottom: 100px; right: 20px;
-    display: flex; flex-direction: column; gap: 12px;
-    z-index: 500;
-  }
-  .float-btn {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    text-decoration: none; cursor: none;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-  }
-  .float-btn:hover { transform: scale(1.1) translateY(-2px); }
-  .float-call { background: var(--gold); }
-  .float-call svg { color: var(--black); }
-  .float-tg { background: #229ed9; }
-  .float-tg svg { color: white; }
-  .float-pulse {
-    position: relative;
-  }
-  .float-pulse::before {
-    content: '';
-    position: absolute; inset: -6px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    animation: pulse 2.5s infinite;
-  }
-  @keyframes pulse {
-    0% { opacity: 0.6; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.4); }
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .reveal {
-    opacity: 0; transform: translateY(32px);
-    transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1),
-                transform 0.8s cubic-bezier(0.23,1,0.32,1);
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
-  .reveal-delay-5 { transition-delay: 0.5s; }
-
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    nav { padding: 24px 20px; }
-    .hero-line-left, .hero-line-right { display: none; }
-    #services, #prices, #contacts { padding: 80px 20px; }
-    .services-header { grid-template-columns: 1fr; gap: 24px; }
-    .contacts-inner { grid-template-columns: 1fr; gap: 60px; }
-    footer { padding: 32px 20px; flex-direction: column; text-align: center; }
-    .float-btns { bottom: 100px; right: 16px; }
-  }
-  @media (max-width: 600px) {
-    .hero-title { font-size: clamp(42px, 12vw, 64px); }
-    .prices-grid { grid-template-columns: 1fr; }
-    .services-grid { grid-template-columns: 1fr; }
-    .side-menu { padding: 70px 32px 40px; }
-  }
-
-  /* SERVICE DETAIL PAGE */
-  .service-page {
-    display: none;
-    position: fixed; inset: 0; z-index: 400;
-    background: var(--black);
-    overflow-y: auto;
-    animation: pageIn 0.5s cubic-bezier(0.23,1,0.32,1);
-  }
-  .service-page.active { display: block; }
-  @keyframes pageIn {
-    from { opacity: 0; transform: translateX(40px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-  .sp-header {
-    position: sticky; top: 0; z-index: 10;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 20px 40px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .sp-back {
-    display: flex; align-items: center; gap: 10px;
-    background: none; border: none; color: var(--text-muted);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px; font-weight: 600;
-    letter-spacing: 0.25em; text-transform: uppercase;
-    cursor: none; transition: color 0.3s;
-  }
-  .sp-back:hover { color: var(--gold); }
-  .sp-back svg { transition: transform 0.3s; }
-  .sp-back:hover svg { transform: translateX(-4px); }
-  .sp-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px; font-weight: 600;
-    letter-spacing: 0.3em; color: var(--gold);
-    text-transform: uppercase;
-  }
-  .sp-logo span { color: var(--text-muted); }
-  .sp-body { max-width: 900px; margin: 0 auto; padding: 60px 40px 100px; }
-  .sp-badge {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.4em; color: var(--gold);
-    text-transform: uppercase; margin-bottom: 20px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .sp-badge::after { content:''; flex:1; max-width:40px; height:1px; background:var(--gold); opacity:.4; }
-  .sp-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(40px, 7vw, 72px);
-    font-weight: 300; line-height: 1.05;
-    margin-bottom: 28px;
-  }
-  .sp-intro {
-    font-size: 16px; font-weight: 300;
-    color: rgba(232,228,220,0.65);
-    line-height: 1.85; max-width: 640px;
-    padding-left: 20px;
-    border-left: 2px solid var(--gold);
-    margin-bottom: 64px;
-  }
-  .sp-divider {
-    height: 1px; background: var(--border);
-    margin: 48px 0;
-  }
-  .sp-section-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.35em; color: var(--gold);
-    text-transform: uppercase; margin-bottom: 32px;
-  }
-  .sp-duties {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1px; background: var(--border);
-    border: 1px solid var(--border);
-    margin-bottom: 64px;
-  }
-  .sp-duty {
-    background: var(--dark);
-    padding: 32px 28px;
-    transition: background 0.3s;
-  }
-  .sp-duty:hover { background: var(--dark3); }
-  .sp-duty-icon {
-    width: 36px; height: 36px; margin-bottom: 16px; color: var(--gold); opacity: 0.75;
-  }
-  .sp-duty-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 15px; font-weight: 600;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .sp-duty-list { list-style: none; }
-  .sp-duty-list li {
-    font-size: 13px; font-weight: 300;
-    color: rgba(232,228,220,0.55);
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    display: flex; align-items: flex-start; gap: 8px;
-    line-height: 1.5;
-  }
-  .sp-duty-list li::before {
-    content: '—'; color: var(--gold); opacity: 0.5;
-    flex-shrink: 0; margin-top: 1px;
-  }
-  .sp-client-section {
-    background: var(--dark2);
-    border: 1px solid var(--border);
-    padding: 40px;
-    margin-bottom: 48px;
-  }
-  .sp-client-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px; font-weight: 300;
-    margin-bottom: 24px;
-  }
-  .sp-client-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .sp-client-list li {
-    font-size: 14px; font-weight: 300;
-    color: rgba(232,228,220,0.65);
-    display: flex; align-items: flex-start; gap: 12px;
-    line-height: 1.6;
-  }
-  .sp-client-list li::before {
-    content: '';
-    width: 5px; height: 5px;
-    background: var(--gold); border-radius: 50%;
-    flex-shrink: 0; margin-top: 7px;
-  }
-  .sp-cta {
-    display: flex; gap: 16px; flex-wrap: wrap;
-    margin-top: 48px;
-  }
-  @media (max-width: 600px) {
-    .sp-body { padding: 40px 20px 80px; }
-    .sp-header { padding: 18px 20px; }
-    .sp-duties { grid-template-columns: 1fr; }
-  }
-
-    /* ── HOW IT WORKS ── */
-  #how {
-    padding: 100px 40px;
-    background: var(--dark);
-    position: relative; overflow: hidden;
-  }
-  .how-inner { max-width: 1100px; margin: 0 auto; }
-  .how-header { text-align: center; margin-bottom: 72px; }
-  .how-header .section-label { justify-content: center; }
-  .how-header .section-label::after { display: none; }
-  .how-header .section-label::before { content:''; flex:1; max-width:40px; height:1px; background:var(--gold); opacity:.4; }
-  .how-steps {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 0;
-    position: relative;
-  }
-  .how-steps::before {
-    content: '';
-    position: absolute; top: 52px; left: calc(16.67% + 20px); right: calc(16.67% + 20px);
-    height: 1px;
-    background: linear-gradient(to right, var(--gold) 0%, var(--gold) 100%);
-    opacity: 0.2;
-  }
-  .how-step {
-    padding: 0 32px 48px;
-    text-align: center;
-    position: relative;
-  }
-  .how-step-num {
-    width: 64px; height: 64px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 32px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 300;
-    color: var(--gold);
-    background: var(--dark);
-    position: relative; z-index: 1;
-    transition: border-color 0.4s, background 0.4s;
-  }
-  .how-step:hover .how-step-num {
-    border-color: var(--gold);
-    background: var(--gold-dim);
-  }
-  .how-step-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 17px; font-weight: 600;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .how-step-desc { font-size: 13px; font-weight: 300; color: rgba(232,228,220,0.5); line-height: 1.75; }
-
-  /* ── ORDER FORM ── */
-  #order {
-    padding: 100px 40px;
-    background: var(--black);
-    position: relative; overflow: hidden;
-  }
-  #order::before {
-    content: '';
-    position: absolute; right: -100px; top: -100px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .order-inner {
-    max-width: 780px; margin: 0 auto;
-  }
-  .order-header { margin-bottom: 52px; }
-  .order-form {
-    display: grid; gap: 20px;
-  }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .form-group { display: flex; flex-direction: column; gap: 8px; }
-  .form-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: 0.3em; color: var(--text-muted);
-    text-transform: uppercase;
-  }
-  .form-input, .form-select, .form-textarea {
-    background: var(--dark2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-size: 14px; font-weight: 300;
-    padding: 16px 20px;
-    outline: none;
-    transition: border-color 0.3s, background 0.3s;
-    -webkit-appearance: none;
-    border-radius: 0;
-  }
-  .form-input:focus, .form-select:focus, .form-textarea:focus {
-    border-color: var(--gold);
-    background: rgba(201,168,76,0.04);
-  }
-  .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); opacity: 0.6; }
-  .form-select { cursor: none; }
-  .form-select option { background: var(--dark2); color: var(--text); }
-  .form-textarea { resize: vertical; min-height: 100px; }
-  .form-submit {
-    margin-top: 8px;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 16px;
-  }
-  .form-note { font-size: 12px; color: var(--text-muted); font-weight: 300; }
-  .form-note a { color: var(--gold); text-decoration: none; }
-  .btn-submit {
-    display: inline-flex; align-items: center; gap: 12px;
-    background: var(--gold);
-    border: 1px solid var(--gold);
-    color: var(--black);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px; font-weight: 700;
-    letter-spacing: 0.25em; text-transform: uppercase;
-    padding: 18px 48px;
-    cursor: none;
-    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-  }
-  .btn-submit:hover {
-    background: var(--gold-light);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(201,168,76,0.3);
-  }
-  .form-success {
-    display: none;
-    text-align: center; padding: 48px 32px;
-    border: 1px solid rgba(201,168,76,0.3);
-    background: rgba(201,168,76,0.04);
-  }
-  .form-success-icon { font-size: 48px; margin-bottom: 16px; }
-  .form-success h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px; font-weight: 300; margin-bottom: 12px;
-  }
-  .form-success p { font-size: 14px; color: var(--text-muted); }
-
-  
-  /* ── ENHANCED SERVICE CARDS ── */
-  .service-card { cursor: none; }
-  .service-card .service-tag {
-    display: inline-block;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 9px; font-weight: 700;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--gold); border: 1px solid rgba(201,168,76,0.3);
-    padding: 3px 10px; margin-bottom: 20px;
-  }
-  .service-card .open-hint {
-    position: absolute; bottom: 24px; right: 28px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: 0.2em; color: var(--gold);
-    opacity: 0; transition: opacity 0.3s;
-    text-transform: uppercase;
-  }
-  .service-card:hover .open-hint { opacity: 1; }
-
-  /* ── ENHANCED ANIMATIONS ── */
-  .reveal-left {
-    opacity: 0; transform: translateX(-32px);
-    transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1);
-  }
-  .reveal-left.visible { opacity: 1; transform: translateX(0); }
-  .reveal-scale {
-    opacity: 0; transform: scale(0.92);
-    transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
-  }
-  .reveal-scale.visible { opacity: 1; transform: scale(1); }
-
-  /* ── PROGRESS BARS ── */
-  .progress-list { display: flex; flex-direction: column; gap: 20px; margin-top: 48px; }
-  .progress-item {}
-  .progress-head {
-    display: flex; justify-content: space-between;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px; font-weight: 600;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--text-muted); margin-bottom: 8px;
-  }
-  .progress-head span:last-child { color: var(--gold); }
-  .progress-track {
-    height: 1px; background: rgba(255,255,255,0.08);
-    position: relative; overflow: hidden;
-  }
-  .progress-fill {
-    position: absolute; top: 0; left: 0; height: 100%;
-    background: linear-gradient(to right, var(--gold), var(--gold-light));
-    width: 0; transition: width 1.4s cubic-bezier(0.23,1,0.32,1);
-  }
-
-  @media (max-width: 900px) {
-    #stats, #how, #order { padding: 72px 20px; }
-    .stats-grid { grid-template-columns: repeat(2,1fr); }
-    .how-steps { grid-template-columns: 1fr; }
-    .how-steps::before { display: none; }
-    .form-row { grid-template-columns: 1fr; }
-    .form-submit { flex-direction: column; align-items: flex-start; }
-  }
-  @media (max-width: 600px) {
-    .stats-grid { grid-template-columns: repeat(2,1fr); }
-    .why-grid { grid-template-columns: 1fr; }
-  }
-
-
-  .float-order {
-    width: auto; height: 52px;
-    border-radius: 26px;
-    background: var(--gold);
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 20px;
-    text-decoration: none; cursor: none;
-    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
-    box-shadow: 0 4px 24px rgba(201,168,76,0.35);
-  }
-  .float-order:hover {
-    transform: scale(1.05) translateY(-2px);
-    background: var(--gold-light);
-    box-shadow: 0 8px 32px rgba(201,168,76,0.45);
-  }
-  .float-order span {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px; font-weight: 700;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--black); white-space: nowrap;
-  }
-  .float-order svg { color: var(--black); flex-shrink: 0; }
-
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:24px 20px}
+  .hero-line-left,.hero-line-right{display:none}
+  #services,#prices,#contacts,#how,#order{padding:80px 20px}
+  .services-header{grid-template-columns:1fr;gap:24px}
+  .contacts-inner{grid-template-columns:1fr;gap:60px}
+  .how-steps{grid-template-columns:1fr}
+  .how-steps::before{display:none}
+  footer{padding:32px 20px;flex-direction:column;text-align:center}
+  .float-btns{bottom:100px;right:16px}
+  .form-row{grid-template-columns:1fr}
+  .form-submit{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+  .hero-title{font-size:clamp(42px,12vw,64px)}
+  .prices-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr}
+  .side-menu{padding:70px 32px 40px}
+  .sp-body{padding:40px 20px 80px}
+  .sp-header{padding:18px 20px}
+  .sp-duties{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -1048,7 +268,7 @@
 <div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
-<nav>
+<nav id="mainNav">
   <div class="nav-logo">ARES <span>Security Group</span></div>
   <button class="burger" id="burger" aria-label="Меню">
     <span></span><span></span><span></span>
@@ -1080,18 +300,10 @@
   <div class="hero-overlay"></div>
   <div class="hero-line-left"></div>
   <div class="hero-line-right"></div>
-
   <div class="hero-content">
     <div class="hero-badge">Преміум охорона · Київ</div>
-    <h1 class="hero-title">
-      ARES
-      <em>Security</em>
-      Group
-    </h1>
-    <p class="hero-sub">
-      Хвилюєтесь за свою безпеку чи близьких?<br>
-      Ми забезпечимо повний контроль та захист.
-    </p>
+    <h1 class="hero-title">ARES<em>Security</em>Group</h1>
+    <p class="hero-sub">Хвилюєтесь за свою безпеку чи близьких?<br>Ми забезпечимо повний контроль та захист.</p>
     <div class="hero-cta">
       <a href="#order" class="btn-primary">
         <span>Замовити охорону</span>
@@ -1099,14 +311,11 @@
       </a>
     </div>
   </div>
-
   <div class="hero-scroll">
     <span>Scroll</span>
     <div class="scroll-line"></div>
   </div>
-</section></div>
-</div>
-
+</section>
 
 <!-- SERVICES -->
 <section id="services">
@@ -1116,74 +325,47 @@
         <div class="section-label reveal">Що ми пропонуємо</div>
         <h2 class="section-title reveal reveal-delay-1">Наші<br>послуги</h2>
       </div>
-      <p class="section-desc reveal reveal-delay-2">
-        Кожна послуга адаптується під ваші завдання. Підберемо рішення будь-якої складності — від особистої охорони до комплексного захисту об'єкта.
-      </p>
+      <p class="section-desc reveal reveal-delay-2">Кожна послуга адаптується під ваші завдання. Підберемо рішення будь-якої складності — від особистої охорони до комплексного захисту об'єкта.</p>
     </div>
-
     <div class="services-grid">
-
-      <div class="service-card reveal" onclick="openPage('page-personal')" style="cursor:none">
+      <div class="service-card reveal" onclick="openPage('page-personal')">
         <div class="service-num">01</div>
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-          <path d="M12 14l3 3-3 3-3-3 3-3z" stroke-width="1"/>
-        </svg>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <div class="service-name">Особиста охорона</div>
         <div class="service-desc">Персональний охоронець 24/7. Нейтралізація загроз, контроль периметру та маршрутів.</div>
-        <div class="service-arrow">→</div>
+        <div class="open-hint">Детальніше →</div>
       </div>
-
-      <div class="service-card reveal reveal-delay-1" onclick="openPage('page-escort')" style="cursor:none">
+      <div class="service-card reveal reveal-delay-1" onclick="openPage('page-escort')">
         <div class="service-num">02</div>
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <circle cx="12" cy="12" r="2"/>
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-          <path d="M12 8v4l3 3"/>
-        </svg>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
         <div class="service-name">Супровід</div>
         <div class="service-desc">Пішохідний та автомобільний ескорт. Безпечне переміщення в будь-яких умовах.</div>
-        <div class="service-arrow">→</div>
+        <div class="open-hint">Детальніше →</div>
       </div>
-
-      <div class="service-card reveal reveal-delay-2" onclick="openPage('page-driver')" style="cursor:none">
+      <div class="service-card reveal reveal-delay-2" onclick="openPage('page-driver')">
         <div class="service-num">03</div>
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="2" y="7" width="20" height="14" rx="2"/>
-          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
-          <circle cx="12" cy="14" r="2"/>
-        </svg>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><circle cx="12" cy="14" r="2"/></svg>
         <div class="service-name">Водій-охоронець</div>
         <div class="service-desc">Досвідчений водій із навичками охоронця. Контраварійне водіння, аналіз маршруту.</div>
-        <div class="service-arrow">→</div>
+        <div class="open-hint">Детальніше →</div>
       </div>
-
-      <div class="service-card reveal reveal-delay-1" onclick="openPage('page-office')" style="cursor:none">
+      <div class="service-card reveal reveal-delay-1" onclick="openPage('page-office')">
         <div class="service-num">04</div>
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <div class="service-name">Охорона офісу</div>
         <div class="service-desc">Цілодобова охорона бізнесу. Контроль доступу, відеоспостереження, реакція на інциденти.</div>
-        <div class="service-arrow">→</div>
+        <div class="open-hint">Детальніше →</div>
       </div>
-
-      <div class="service-card reveal reveal-delay-2" onclick="openPage('page-territory')" style="cursor:none">
+      <div class="service-card reveal reveal-delay-2" onclick="openPage('page-territory')">
         <div class="service-num">05</div>
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        </svg>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <div class="service-name">Охорона території</div>
         <div class="service-desc">Патрулювання об'єктів, складів, приватних маєтків. Інсталяція систем безпеки.</div>
-        <div class="service-arrow">→</div>
+        <div class="open-hint">Детальніше →</div>
       </div>
-
     </div>
   </div>
 </section>
-
 
 <!-- HOW IT WORKS -->
 <section id="how">
@@ -1196,12 +378,12 @@
       <div class="how-step reveal">
         <div class="how-step-num">01</div>
         <div class="how-step-title">Залишаєте заявку</div>
-        <div class="how-step-desc">Телефонуєте, пишете в Telegram або заповнюєте форму. Ми відповідаємо протягом 15 хвилин.</div>
+        <div class="how-step-desc">Телефонуєте, пишете в Telegram або заповнюєте форму. Відповідаємо протягом 15 хвилин.</div>
       </div>
       <div class="how-step reveal reveal-delay-2">
         <div class="how-step-num">02</div>
         <div class="how-step-title">Обговорюємо завдання</div>
-        <div class="how-step-desc">Менеджер уточнює деталі, складаємо індивідуальний план охорони та розраховуємо вартість.</div>
+        <div class="how-step-desc">Уточнюємо деталі, складаємо індивідуальний план охорони та розраховуємо вартість.</div>
       </div>
       <div class="how-step reveal reveal-delay-4">
         <div class="how-step-num">03</div>
@@ -1228,15 +410,12 @@
 
 <!-- PRICES -->
 <section id="prices">
-  <div class="deco-text" style="right:-60px;top:40px;opacity:0.4">ARES</div>
   <div class="prices-inner">
     <div class="prices-header">
       <div class="section-label reveal">Прозорі умови</div>
       <h2 class="section-title reveal reveal-delay-1">Вартість<br>послуг</h2>
     </div>
-
     <div class="prices-grid">
-
       <div class="price-card reveal">
         <div class="price-tag">від 4000</div>
         <div class="price-range">грн / зміна · 1 особа</div>
@@ -1250,7 +429,6 @@
           <li>Уніформа та спорядження</li>
         </ul>
       </div>
-
       <div class="price-card featured reveal reveal-delay-1">
         <div class="price-tag">від 5000</div>
         <div class="price-range">грн / зміна · 1 особа</div>
@@ -1264,7 +442,6 @@
           <li>Абсолютна конфіденційність</li>
         </ul>
       </div>
-
       <div class="price-card reveal reveal-delay-2">
         <div class="price-tag">від 6000</div>
         <div class="price-range">грн / зміна · 1 особа</div>
@@ -1278,8 +455,7 @@
           <li>Суворий NDA</li>
         </ul>
       </div>
-
-      <div class="price-card reveal reveal-delay-1">
+      <div class="price-card reveal reveal-delay-3">
         <div class="price-tag">від 8000</div>
         <div class="price-range">грн / доба · об'єкт</div>
         <div class="price-name">Охорона об'єкта</div>
@@ -1292,16 +468,10 @@
           <li>Щомісячна звітність клієнту</li>
         </ul>
       </div>
-
     </div>
-
-    <p class="price-note reveal">
-      <strong>Ціна за одну людину на зміну.</strong> Остаточна вартість залежить від кількості охоронців, тривалості та складності завдання.<br>
-      Залишіть заявку — розрахуємо індивідуально та безкоштовно.
-    </p>
+    <p class="price-note reveal"><strong>Ціна за одну людину на зміну.</strong> Остаточна вартість залежить від кількості охоронців, тривалості та складності завдання.<br>Залишіть заявку — розрахуємо індивідуально та безкоштовно.</p>
   </div>
 </section>
-
 
 <!-- ORDER FORM -->
 <section id="order">
@@ -1309,47 +479,43 @@
     <div class="order-header">
       <div class="section-label reveal">Безкоштовна консультація</div>
       <h2 class="section-title reveal reveal-delay-1">Залишити<br>заявку</h2>
-      <p class="section-desc reveal reveal-delay-2" style="margin-top:16px">
-        Заповніть форму — ми зв'яжемося з вами протягом 15 хвилин і розрахуємо вартість безкоштовно.
-      </p>
+      <p class="section-desc reveal reveal-delay-2" style="margin-top:16px">Заповніть форму — ми зв'яжемося з вами протягом 15 хвилин і розрахуємо вартість безкоштовно.</p>
     </div>
-    <div id="orderFormWrap">
-      <form class="order-form" id="orderForm" onsubmit="submitForm(event)">
-        <div class="form-row reveal">
-          <div class="form-group">
-            <label class="form-label">Ваше ім'я</label>
-            <input class="form-input" type="text" placeholder="Олексій" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Номер телефону</label>
-            <input class="form-input" type="tel" placeholder="+380 XX XXX XX XX" required>
-          </div>
+    <form class="order-form" id="orderForm">
+      <div class="form-row reveal">
+        <div class="form-group">
+          <label class="form-label">Ваше ім'я</label>
+          <input class="form-input" id="f-name" type="text" placeholder="Олексій" required>
         </div>
-        <div class="form-group reveal reveal-delay-1">
-          <label class="form-label">Послуга</label>
-          <select class="form-select" required>
-            <option value="" disabled selected>Оберіть послугу...</option>
-            <option>Особиста охорона</option>
-            <option>Супровід (пішки / авто)</option>
-            <option>Водій-охоронець</option>
-            <option>Охорона офісу</option>
-            <option>Охорона території</option>
-            <option>Не визначився — потрібна консультація</option>
-          </select>
+        <div class="form-group">
+          <label class="form-label">Номер телефону</label>
+          <input class="form-input" id="f-phone" type="tel" placeholder="+380 XX XXX XX XX" required>
         </div>
-        <div class="form-group reveal reveal-delay-2">
-          <label class="form-label">Коментар (необов'язково)</label>
-          <textarea class="form-textarea" placeholder="Опишіть вашу ситуацію або завдання..."></textarea>
-        </div>
-        <div class="form-submit reveal reveal-delay-3">
-          <span class="form-note">Натискаючи кнопку, ви погоджуєтесь на<br><a href="#">обробку персональних даних</a></span>
-          <button type="submit" class="btn-submit">
-            <span>Відправити заявку</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+      <div class="form-group reveal reveal-delay-1">
+        <label class="form-label">Послуга</label>
+        <select class="form-select" id="f-service" required>
+          <option value="" disabled selected>Оберіть послугу...</option>
+          <option>Особиста охорона</option>
+          <option>Супровід (пішки / авто)</option>
+          <option>Водій-охоронець</option>
+          <option>Охорона офісу</option>
+          <option>Охорона території</option>
+          <option>Не визначився — потрібна консультація</option>
+        </select>
+      </div>
+      <div class="form-group reveal reveal-delay-2">
+        <label class="form-label">Коментар (необов'язково)</label>
+        <textarea class="form-textarea" id="f-comment" placeholder="Опишіть вашу ситуацію або завдання..."></textarea>
+      </div>
+      <div class="form-submit reveal reveal-delay-3">
+        <span class="form-note">Конфіденційність гарантована</span>
+        <button type="button" class="btn-submit" id="submitBtn" onclick="submitForm()">
+          <span>Відправити заявку</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+        </button>
+      </div>
+    </form>
     <div class="form-success" id="formSuccess">
       <div class="form-success-icon">✦</div>
       <h3>Заявку отримано</h3>
@@ -1373,7 +539,6 @@
         Працюємо по Києву та Київській області
       </div>
     </div>
-
     <div class="contact-buttons">
       <a href="tel:+380738822980" class="btn-contact btn-call reveal reveal-delay-1">
         <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.07 6.07l1.9-1.9a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -1381,9 +546,7 @@
         <span class="btn-num">+380 73 882 29 80</span>
       </a>
       <a href="https://t.me/ARESSecurit" target="_blank" class="btn-contact btn-tg reveal reveal-delay-2">
-        <svg class="btn-icon tg-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.7 8c-.12.56-.44.7-.9.44l-2.5-1.84-1.2 1.16c-.13.13-.24.24-.5.24l.18-2.52 4.6-4.16c.2-.18-.04-.28-.3-.1L8.06 14.6l-2.46-.77c-.53-.17-.54-.53.12-.78l9.6-3.7c.44-.16.83.1.68.75l.64.7z"/>
-        </svg>
+        <svg class="btn-icon tg-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.7 8c-.12.56-.44.7-.9.44l-2.5-1.84-1.2 1.16c-.13.13-.24.24-.5.24l.18-2.52 4.6-4.16c.2-.18-.04-.28-.3-.1L8.06 14.6l-2.46-.77c-.53-.17-.54-.53.12-.78l9.6-3.7c.44-.16.83.1.68.75l.64.7z"/></svg>
         <span>Telegram</span>
         <span class="btn-num">@ARESSecurit</span>
       </a>
@@ -1408,558 +571,229 @@
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.18.96.47 1.9.85 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.07 6.07l1.9-1.9a2 2 0 0 1 2.11-.45c.91.38 1.85.67 2.81.85A2 2 0 0 1 22 16.92z"/></svg>
   </a>
   <a href="https://t.me/ARESSecurit" target="_blank" class="float-btn float-tg" title="Telegram">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.7 8c-.12.56-.44.7-.9.44l-2.5-1.84-1.2 1.16c-.13.13-.24.24-.5.24l.18-2.52 4.6-4.16c.2-.18-.04-.28-.3-.1L8.06 14.6l-2.46-.77c-.53-.17-.54-.53.12-.78l9.6-3.7c.44-.16.83.1.68.75l.64.7z"/>
-    </svg>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.7 8c-.12.56-.44.7-.9.44l-2.5-1.84-1.2 1.16c-.13.13-.24.24-.5.24l.18-2.52 4.6-4.16c.2-.18-.04-.28-.3-.1L8.06 14.6l-2.46-.77c-.53-.17-.54-.53.12-.78l9.6-3.7c.44-.16.83.1.68.75l.64.7z"/></svg>
   </a>
 </div>
 
-<script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    ring.style.left = e.clientX + 'px';
-    ring.style.top = e.clientY + 'px';
-  });
-
-  // Burger menu
-  const burger = document.getElementById('burger');
-  const overlay = document.getElementById('overlay');
-  const sideMenu = document.getElementById('sideMenu');
-  const menuLinks = document.querySelectorAll('.menu-link');
-
-  function openMenu() {
-    burger.classList.add('open');
-    overlay.classList.add('open');
-    sideMenu.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeMenu() {
-    burger.classList.remove('open');
-    overlay.classList.remove('open');
-    sideMenu.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  burger.addEventListener('click', () => sideMenu.classList.contains('open') ? closeMenu() : openMenu());
-  overlay.addEventListener('click', closeMenu);
-  menuLinks.forEach(link => link.addEventListener('click', closeMenu));
-
-  // Scroll reveal
-  const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  revealEls.forEach(el => observer.observe(el));
-
-  // Nav background on scroll
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 60
-      ? 'rgba(10,10,10,0.95)'
-      : 'linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%)';
-    nav.style.backdropFilter = window.scrollY > 60 ? 'blur(12px)' : 'none';
-    nav.style.transition = 'background 0.4s, backdrop-filter 0.4s';
-    nav.style.borderBottom = window.scrollY > 60 ? '1px solid rgba(201,168,76,0.12)' : 'none';
-  });
-
-  // Smooth scroll for all anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', e => {
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  // Hide cursor on mobile
-  if ('ontouchstart' in window) {
-    cursor.style.display = 'none';
-    ring.style.display = 'none';
-    document.body.style.cursor = 'auto';
-  }
-
-  function openPage(id) {
-    const page = document.getElementById(id);
-    if (page) {
-      page.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      page.scrollTop = 0;
-    }
-  }
-  function closePage() {
-    document.querySelectorAll('.service-page').forEach(p => p.classList.remove('active'));
-    document.body.style.overflow = '';
-  }
-  // Close on ESC
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closePage(); });
-
-
-  
-
-  // ── Progress bars ──
-  const fills = document.querySelectorAll('.progress-fill');
-  const fillObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      setTimeout(() => { el.style.width = el.dataset.width + '%'; }, 200);
-      fillObserver.unobserve(el);
-    });
-  }, { threshold: 0.3 });
-  fills.forEach(f => fillObserver.observe(f));
-
-  // ── Form submit ──
-  async function submitForm(e) {
-    e.preventDefault();
-    const form = document.getElementById('orderForm');
-    const success = document.getElementById('formSuccess');
-    const btn = form.querySelector('.btn-submit');
-
-    const name    = form.querySelector('input[type="text"]').value;
-    const phone   = form.querySelector('input[type="tel"]').value;
-    const service = form.querySelector('select').value;
-    const comment = form.querySelector('textarea').value;
-
-    const BOT_TOKEN = '8913538423:AAFSB0cckRKokPJdRwJ1sUpulEhdgwNCrRg';
-    const CHAT_ID   = '8609439707';
-
-    const text = `🛡 <b>Нова заявка — ARES Security Group</b>
-
-👤 <b>Ім'я:</b> ${name}
-📞 <b>Телефон:</b> ${phone}
-🔒 <b>Послуга:</b> ${service}
-💬 <b>Коментар:</b> ${comment || 'не вказано'}`;
-
-    btn.textContent = 'Відправляємо...';
-    btn.disabled = true;
-
-    try {
-      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' })
-      });
-      const data = await res.json();
-      if (data.ok) {
-        form.style.opacity = '0';
-        form.style.transition = 'opacity 0.4s';
-        setTimeout(() => {
-          form.style.display = 'none';
-          success.style.display = 'block';
-          success.style.animation = 'fadeUp 0.6s forwards';
-        }, 400);
-      } else {
-        btn.textContent = 'Помилка. Спробуйте ще раз';
-        btn.disabled = false;
-      }
-    } catch(err) {
-      btn.textContent = 'Помилка з'єднання';
-      btn.disabled = false;
-    }
-  }
-
-  // ── Add reveal-left to observer ──
-  document.querySelectorAll('.reveal-left, .reveal-scale').forEach(el => observer.observe(el));
-
-</script>
-
-<!-- ══════════════ SERVICE DETAIL PAGES ══════════════ -->
-
-<!-- PAGE 1: Особиста охорона -->
+<!-- SERVICE DETAIL PAGES -->
 <div class="service-page" id="page-personal">
   <div class="sp-header">
-    <button class="sp-back" onclick="closePage()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>
-      Назад
-    </button>
+    <button class="sp-back" onclick="closePage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg> Назад</button>
     <div class="sp-logo">ARES <span>Security</span></div>
   </div>
   <div class="sp-body">
     <div class="sp-badge">Послуга 01</div>
     <h2 class="sp-title">Особиста<br>охорона</h2>
-    <p class="sp-intro">
-      Персональний захист клієнта в будь-якій ситуації — вдома, на роботі, під час переміщення. Охоронець завжди поряд і готовий нейтралізувати будь-яку загрозу.
-    </p>
-
+    <p class="sp-intro">Персональний захист клієнта в будь-якій ситуації — вдома, на роботі, під час переміщення. Охоронець завжди поряд і готовий нейтралізувати будь-яку загрозу.</p>
     <div class="sp-section-title">Що виконує охоронець</div>
     <div class="sp-duties">
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div class="sp-duty-name">Фізичний захист</div>
-        <ul class="sp-duty-list">
-          <li>Постійне перебування поряд із клієнтом</li>
-          <li>Нейтралізація фізичних загроз</li>
-          <li>Контроль особистого простору</li>
-          <li>Захист при скупченні людей</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <div class="sp-duty-name">Розвідка та оцінка</div>
-        <ul class="sp-duty-list">
-          <li>Попередній огляд локацій</li>
-          <li>Оцінка рівня загроз</li>
-          <li>Виявлення підозрілих осіб</li>
-          <li>Моніторинг оточення 24/7</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-        <div class="sp-duty-name">Охорона місця перебування</div>
-        <ul class="sp-duty-list">
-          <li>Контроль входів і виходів</li>
-          <li>Перевірка приміщень перед входом</li>
-          <li>Взаємодія з персоналом будівлі</li>
-          <li>Охорона під час заходів</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12"/><path d="M1 1l22 22"/></svg>
-        <div class="sp-duty-name">Екстрені ситуації</div>
-        <ul class="sp-duty-list">
-          <li>Евакуація клієнта при загрозі</li>
-          <li>Виклик екстрених служб</li>
-          <li>Надання першої допомоги</li>
-          <li>Зв'язок з оперативним штабом</li>
-        </ul>
-      </div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="sp-duty-name">Фізичний захист</div><ul class="sp-duty-list"><li>Постійне перебування поряд із клієнтом</li><li>Нейтралізація фізичних загроз</li><li>Контроль особистого простору</li><li>Захист при скупченні людей</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><div class="sp-duty-name">Розвідка та оцінка</div><ul class="sp-duty-list"><li>Попередній огляд локацій</li><li>Оцінка рівня загроз</li><li>Виявлення підозрілих осіб</li><li>Моніторинг оточення 24/7</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><div class="sp-duty-name">Охорона місця перебування</div><ul class="sp-duty-list"><li>Контроль входів і виходів</li><li>Перевірка приміщень перед входом</li><li>Взаємодія з персоналом будівлі</li><li>Охорона під час заходів</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><div class="sp-duty-name">Екстрені ситуації</div><ul class="sp-duty-list"><li>Евакуація клієнта при загрозі</li><li>Виклик екстрених служб</li><li>Надання першої допомоги</li><li>Зв'язок з оперативним штабом</li></ul></div>
     </div>
-
-    <div class="sp-client-section">
-      <div class="sp-client-title">Що отримує клієнт</div>
-      <ul class="sp-client-list">
-        <li>Повна безпека та спокій у будь-якому місці</li>
-        <li>Охоронець проходить перевірку та має досвід у силових структурах</li>
-        <li>Абсолютна конфіденційність — NDA на весь час співпраці</li>
-        <li>Індивідуальний план охорони під ваш розклад і потреби</li>
-        <li>Цілодобовий зв'язок із керівником групи</li>
-      </ul>
-    </div>
-    <div class="sp-cta">
-      <a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a>
-      <a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a>
-    </div>
+    <div class="sp-client-section"><div class="sp-client-title">Що отримує клієнт</div><ul class="sp-client-list"><li>Повна безпека та спокій у будь-якому місці</li><li>Охоронець проходить перевірку та має досвід у силових структурах</li><li>Абсолютна конфіденційність — NDA на весь час співпраці</li><li>Індивідуальний план охорони під ваш розклад і потреби</li><li>Цілодобовий зв'язок із керівником групи</li></ul></div>
+    <div class="sp-cta"><a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a><a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a></div>
   </div>
 </div>
 
-<!-- PAGE 2: Супровід -->
 <div class="service-page" id="page-escort">
   <div class="sp-header">
-    <button class="sp-back" onclick="closePage()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>
-      Назад
-    </button>
+    <button class="sp-back" onclick="closePage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg> Назад</button>
     <div class="sp-logo">ARES <span>Security</span></div>
   </div>
   <div class="sp-body">
     <div class="sp-badge">Послуга 02</div>
     <h2 class="sp-title">Супровід<br>пішки / авто</h2>
-    <p class="sp-intro">
-      Безпечне переміщення клієнта в місті та за його межами. Охоронець супроводжує пішки або в автомобілі — від точки А до точки Б без жодного ризику.
-    </p>
-
+    <p class="sp-intro">Безпечне переміщення клієнта в місті та за його межами. Охоронець супроводжує пішки або в автомобілі — від точки А до точки Б без жодного ризику.</p>
     <div class="sp-section-title">Що виконує охоронець</div>
     <div class="sp-duties">
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="5" r="2"/><path d="M12 7v7l-3 5M12 14l3 5M9 12h6"/></svg>
-        <div class="sp-duty-name">Пішохідний супровід</div>
-        <ul class="sp-duty-list">
-          <li>Постійне перебування поряд</li>
-          <li>Контроль натовпу та оточення</li>
-          <li>Безпечний вхід/вихід з будівель</li>
-          <li>Реакція на провокації та стеження</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><circle cx="12" cy="14" r="2"/></svg>
-        <div class="sp-duty-name">Автомобільний ескорт</div>
-        <ul class="sp-duty-list">
-          <li>Супровід окремим автомобілем</li>
-          <li>Координація з водієм клієнта</li>
-          <li>Перевірка маршруту перед виїздом</li>
-          <li>Захист при посадці/висадці</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-        <div class="sp-duty-name">Планування маршруту</div>
-        <ul class="sp-duty-list">
-          <li>Аналіз безпечних маршрутів</li>
-          <li>Резервні маршрути при загрозі</li>
-          <li>Уникнення небезпечних зон</li>
-          <li>Оперативна зміна маршруту</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div class="sp-duty-name">Ситуативний захист</div>
-        <ul class="sp-duty-list">
-          <li>Нейтралізація переслідування</li>
-          <li>Дії при нападі або провокації</li>
-          <li>Евакуація в безпечне місце</li>
-          <li>Зв'язок з оперативним штабом</li>
-        </ul>
-      </div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="5" r="2"/><path d="M12 7v7l-3 5M12 14l3 5M9 12h6"/></svg><div class="sp-duty-name">Пішохідний супровід</div><ul class="sp-duty-list"><li>Постійне перебування поряд</li><li>Контроль натовпу та оточення</li><li>Безпечний вхід/вихід з будівель</li><li>Реакція на провокації та стеження</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg><div class="sp-duty-name">Автомобільний ескорт</div><ul class="sp-duty-list"><li>Супровід окремим автомобілем</li><li>Координація з водієм клієнта</li><li>Перевірка маршруту перед виїздом</li><li>Захист при посадці/висадці</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/></svg><div class="sp-duty-name">Планування маршруту</div><ul class="sp-duty-list"><li>Аналіз безпечних маршрутів</li><li>Резервні маршрути при загрозі</li><li>Уникнення небезпечних зон</li><li>Оперативна зміна маршруту</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="sp-duty-name">Ситуативний захист</div><ul class="sp-duty-list"><li>Нейтралізація переслідування</li><li>Дії при нападі або провокації</li><li>Евакуація в безпечне місце</li><li>Зв'язок з оперативним штабом</li></ul></div>
     </div>
-
-    <div class="sp-client-section">
-      <div class="sp-client-title">Що отримує клієнт</div>
-      <ul class="sp-client-list">
-        <li>Впевнене переміщення в будь-якій точці міста та за його межами</li>
-        <li>Охоронець із досвідом контраварійних дій та тактичного супроводу</li>
-        <li>Гнучкий графік — разово або на постійній основі</li>
-        <li>Координація зі службою безпеки клієнта за потреби</li>
-        <li>Повна конфіденційність пересувань</li>
-      </ul>
-    </div>
-    <div class="sp-cta">
-      <a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a>
-      <a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a>
-    </div>
+    <div class="sp-client-section"><div class="sp-client-title">Що отримує клієнт</div><ul class="sp-client-list"><li>Впевнене переміщення в будь-якій точці міста та за його межами</li><li>Охоронець із досвідом контраварійних дій та тактичного супроводу</li><li>Гнучкий графік — разово або на постійній основі</li><li>Координація зі службою безпеки клієнта за потреби</li><li>Повна конфіденційність пересувань</li></ul></div>
+    <div class="sp-cta"><a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a><a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a></div>
   </div>
 </div>
 
-<!-- PAGE 3: Водій-охоронець -->
 <div class="service-page" id="page-driver">
   <div class="sp-header">
-    <button class="sp-back" onclick="closePage()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>
-      Назад
-    </button>
+    <button class="sp-back" onclick="closePage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg> Назад</button>
     <div class="sp-logo">ARES <span>Security</span></div>
   </div>
   <div class="sp-body">
     <div class="sp-badge">Послуга 03</div>
     <h2 class="sp-title">Водій-<br>охоронець</h2>
-    <p class="sp-intro">
-      Поєднання досвідченого водія та підготовленого охоронця в одній особі. Безпека на дорозі та за її межами — від старту до кінцевої точки.
-    </p>
-
+    <p class="sp-intro">Поєднання досвідченого водія та підготовленого охоронця в одній особі. Безпека на дорозі та за її межами — від старту до кінцевої точки.</p>
     <div class="sp-section-title">Що виконує охоронець</div>
     <div class="sp-duties">
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-        <div class="sp-duty-name">Безпечне водіння</div>
-        <ul class="sp-duty-list">
-          <li>Контраварійне та захисне водіння</li>
-          <li>Уникнення стеження на дорозі</li>
-          <li>Дії при спробі блокування авто</li>
-          <li>Безпечна зупинка та висадка</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/></svg>
-        <div class="sp-duty-name">Планування поїздок</div>
-        <ul class="sp-duty-list">
-          <li>Аналіз та розвідка маршрутів</li>
-          <li>Резервні маршрути при загрозі</li>
-          <li>Контроль часу та точок зупинки</li>
-          <li>Координація розкладу клієнта</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <div class="sp-duty-name">Охорона поза авто</div>
-        <ul class="sp-duty-list">
-          <li>Супровід при виході з автомобіля</li>
-          <li>Контроль оточення під час очікування</li>
-          <li>Захист при посадці у небезпечному місці</li>
-          <li>Перевірка авто після стоянки</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div class="sp-duty-name">Реакція на загрози</div>
-        <ul class="sp-duty-list">
-          <li>Негайна евакуація при небезпеці</li>
-          <li>Дії при ДТП або нападі</li>
-          <li>Перша медична допомога</li>
-          <li>Зв'язок з оперативним штабом</li>
-        </ul>
-      </div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg><div class="sp-duty-name">Безпечне водіння</div><ul class="sp-duty-list"><li>Контраварійне та захисне водіння</li><li>Уникнення стеження на дорозі</li><li>Дії при спробі блокування авто</li><li>Безпечна зупинка та висадка</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/></svg><div class="sp-duty-name">Планування поїздок</div><ul class="sp-duty-list"><li>Аналіз та розвідка маршрутів</li><li>Резервні маршрути при загрозі</li><li>Контроль часу та точок зупинки</li><li>Координація розкладу клієнта</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="sp-duty-name">Охорона поза авто</div><ul class="sp-duty-list"><li>Супровід при виході з автомобіля</li><li>Контроль оточення під час очікування</li><li>Захист при посадці у небезпечному місці</li><li>Перевірка авто після стоянки</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="sp-duty-name">Реакція на загрози</div><ul class="sp-duty-list"><li>Негайна евакуація при небезпеці</li><li>Дії при ДТП або нападі</li><li>Перша медична допомога</li><li>Зв'язок з оперативним штабом</li></ul></div>
     </div>
-
-    <div class="sp-client-section">
-      <div class="sp-client-title">Що отримує клієнт</div>
-      <ul class="sp-client-list">
-        <li>Надійний спеціаліст — водій і охоронець в одній особі</li>
-        <li>Досвід роботи у спецпідрозділах та охоронних структурах</li>
-        <li>Знання Києва та області — оптимальні маршрути в будь-який час</li>
-        <li>Суворе дотримання конфіденційності всіх пересувань</li>
-        <li>Гнучкий графік — по годинах або на весь день</li>
-      </ul>
-    </div>
-    <div class="sp-cta">
-      <a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a>
-      <a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a>
-    </div>
+    <div class="sp-client-section"><div class="sp-client-title">Що отримує клієнт</div><ul class="sp-client-list"><li>Надійний спеціаліст — водій і охоронець в одній особі</li><li>Досвід роботи у спецпідрозділах та охоронних структурах</li><li>Знання Києва та області — оптимальні маршрути в будь-який час</li><li>Суворе дотримання конфіденційності всіх пересувань</li><li>Гнучкий графік — по годинах або на весь день</li></ul></div>
+    <div class="sp-cta"><a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a><a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a></div>
   </div>
 </div>
 
-<!-- PAGE 4: Охорона офісу -->
 <div class="service-page" id="page-office">
   <div class="sp-header">
-    <button class="sp-back" onclick="closePage()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>
-      Назад
-    </button>
+    <button class="sp-back" onclick="closePage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg> Назад</button>
     <div class="sp-logo">ARES <span>Security</span></div>
   </div>
   <div class="sp-body">
     <div class="sp-badge">Послуга 04</div>
     <h2 class="sp-title">Охорона<br>офісу</h2>
-    <p class="sp-intro">
-      Комплексна безпека вашого бізнесу. Охорона офісу — це не просто пост на вході, а повноцінний захист персоналу, майна та інформації.
-    </p>
-
+    <p class="sp-intro">Комплексна безпека вашого бізнесу. Охорона офісу — це не просто пост на вході, а повноцінний захист персоналу, майна та інформації.</p>
     <div class="sp-section-title">Що виконує охоронець</div>
     <div class="sp-duties">
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <div class="sp-duty-name">Контроль доступу</div>
-        <ul class="sp-duty-list">
-          <li>Перевірка документів відвідувачів</li>
-          <li>Ведення журналу відвідувань</li>
-          <li>Контроль пропускного режиму</li>
-          <li>Перевірка вантажів та посилок</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-        <div class="sp-duty-name">Відеоспостереження</div>
-        <ul class="sp-duty-list">
-          <li>Моніторинг камер у реальному часі</li>
-          <li>Реагування на підозрілу активність</li>
-          <li>Контроль сліпих зон</li>
-          <li>Збереження записів при інцидентах</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <div class="sp-duty-name">Патрулювання</div>
-        <ul class="sp-duty-list">
-          <li>Регулярні обходи приміщень</li>
-          <li>Перевірка вікон, дверей, виходів</li>
-          <li>Контроль паркінгу та прилеглої зони</li>
-          <li>Нічне чергування</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        <div class="sp-duty-name">Реагування на інциденти</div>
-        <ul class="sp-duty-list">
-          <li>Дії при пожежній тривозі</li>
-          <li>Затримання порушників до приїзду поліції</li>
-          <li>Евакуація персоналу</li>
-          <li>Складання актів про інциденти</li>
-        </ul>
-      </div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div class="sp-duty-name">Контроль доступу</div><ul class="sp-duty-list"><li>Перевірка документів відвідувачів</li><li>Ведення журналу відвідувань</li><li>Контроль пропускного режиму</li><li>Перевірка вантажів та посилок</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><div class="sp-duty-name">Відеоспостереження</div><ul class="sp-duty-list"><li>Моніторинг камер у реальному часі</li><li>Реагування на підозрілу активність</li><li>Контроль сліпих зон</li><li>Збереження записів при інцидентах</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><div class="sp-duty-name">Патрулювання</div><ul class="sp-duty-list"><li>Регулярні обходи приміщень</li><li>Перевірка вікон, дверей, виходів</li><li>Контроль паркінгу та прилеглої зони</li><li>Нічне чергування</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div class="sp-duty-name">Реагування на інциденти</div><ul class="sp-duty-list"><li>Дії при пожежній тривозі</li><li>Затримання порушників до приїзду поліції</li><li>Евакуація персоналу</li><li>Складання актів про інциденти</li></ul></div>
     </div>
-
-    <div class="sp-client-section">
-      <div class="sp-client-title">Що отримує клієнт</div>
-      <ul class="sp-client-list">
-        <li>Захищений офіс і спокійний персонал — без зайвих тривог</li>
-        <li>Щомісячний звіт про всі події та інциденти</li>
-        <li>Охоронці з досвідом роботи на об'єктах бізнес-класу</li>
-        <li>Гнучке налаштування режиму охорони під графік компанії</li>
-        <li>Взаємодія з поліцією та ДСНС при надзвичайних ситуаціях</li>
-      </ul>
-    </div>
-    <div class="sp-cta">
-      <a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a>
-      <a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a>
-    </div>
+    <div class="sp-client-section"><div class="sp-client-title">Що отримує клієнт</div><ul class="sp-client-list"><li>Захищений офіс і спокійний персонал</li><li>Щомісячний звіт про всі події та інциденти</li><li>Охоронці з досвідом роботи на об'єктах бізнес-класу</li><li>Гнучке налаштування режиму охорони під графік компанії</li><li>Взаємодія з поліцією та ДСНС при надзвичайних ситуаціях</li></ul></div>
+    <div class="sp-cta"><a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a><a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a></div>
   </div>
 </div>
 
-<!-- PAGE 5: Охорона території -->
 <div class="service-page" id="page-territory">
   <div class="sp-header">
-    <button class="sp-back" onclick="closePage()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>
-      Назад
-    </button>
+    <button class="sp-back" onclick="closePage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg> Назад</button>
     <div class="sp-logo">ARES <span>Security</span></div>
   </div>
   <div class="sp-body">
     <div class="sp-badge">Послуга 05</div>
     <h2 class="sp-title">Охорона<br>території</h2>
-    <p class="sp-intro">
-      Захист великих об'єктів: складів, виробництв, приватних маєтків, паркінгів. Комплексне патрулювання та контроль усього периметру цілодобово.
-    </p>
-
+    <p class="sp-intro">Захист великих об'єктів: складів, виробництв, приватних маєтків, паркінгів. Комплексне патрулювання та контроль усього периметру цілодобово.</p>
     <div class="sp-section-title">Що виконує охоронець</div>
     <div class="sp-duties">
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-        <div class="sp-duty-name">Патрулювання периметру</div>
-        <ul class="sp-duty-list">
-          <li>Регулярні обходи за графіком</li>
-          <li>Контроль огорожі та воріт</li>
-          <li>Виявлення пошкоджень та проникнень</li>
-          <li>Нічне та денне чергування</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        <div class="sp-duty-name">Технічний моніторинг</div>
-        <ul class="sp-duty-list">
-          <li>Спостереження за системою відеокамер</li>
-          <li>Контроль сигналізації та датчиків руху</li>
-          <li>Реагування на спрацювання тривоги</li>
-          <li>Зв'язок з пультом централізованої охорони</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <div class="sp-duty-name">Контроль в'їзду</div>
-        <ul class="sp-duty-list">
-          <li>Пропускний режим для транспорту</li>
-          <li>Перевірка документів та вантажів</li>
-          <li>Журнал в'їзду та виїзду</li>
-          <li>Координація з диспетчером</li>
-        </ul>
-      </div>
-      <div class="sp-duty">
-        <svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div class="sp-duty-name">Захист майна</div>
-        <ul class="sp-duty-list">
-          <li>Запобігання крадіжкам та вандалізму</li>
-          <li>Затримання порушників</li>
-          <li>Документування всіх інцидентів</li>
-          <li>Взаємодія з правоохоронними органами</li>
-        </ul>
-      </div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg><div class="sp-duty-name">Патрулювання периметру</div><ul class="sp-duty-list"><li>Регулярні обходи за графіком</li><li>Контроль огорожі та воріт</li><li>Виявлення пошкоджень та проникнень</li><li>Нічне та денне чергування</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><div class="sp-duty-name">Технічний моніторинг</div><ul class="sp-duty-list"><li>Спостереження за системою відеокамер</li><li>Контроль сигналізації та датчиків руху</li><li>Реагування на спрацювання тривоги</li><li>Зв'язок з пультом централізованої охорони</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div class="sp-duty-name">Контроль в'їзду</div><ul class="sp-duty-list"><li>Пропускний режим для транспорту</li><li>Перевірка документів та вантажів</li><li>Журнал в'їзду та виїзду</li><li>Координація з диспетчером</li></ul></div>
+      <div class="sp-duty"><svg class="sp-duty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="sp-duty-name">Захист майна</div><ul class="sp-duty-list"><li>Запобігання крадіжкам та вандалізму</li><li>Затримання порушників</li><li>Документування всіх інцидентів</li><li>Взаємодія з правоохоронними органами</li></ul></div>
     </div>
-
-    <div class="sp-client-section">
-      <div class="sp-client-title">Що отримує клієнт</div>
-      <ul class="sp-client-list">
-        <li>Надійний захист об'єкта будь-якого масштабу — від садиби до промзони</li>
-        <li>Команда охоронців із чітким розподілом зон відповідальності</li>
-        <li>Щодобовий журнал подій та щомісячна звітність</li>
-        <li>Оперативне реагування — час прибуття групи до 10 хвилин</li>
-        <li>Рекомендації щодо посилення технічної безпеки об'єкта</li>
-      </ul>
-    </div>
-    <div class="sp-cta">
-      <a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a>
-      <a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a>
-    </div>
+    <div class="sp-client-section"><div class="sp-client-title">Що отримує клієнт</div><ul class="sp-client-list"><li>Надійний захист об'єкта будь-якого масштабу</li><li>Команда охоронців із чітким розподілом зон відповідальності</li><li>Щодобовий журнал подій та щомісячна звітність</li><li>Оперативне реагування — час прибуття групи до 10 хвилин</li><li>Рекомендації щодо посилення технічної безпеки об'єкта</li></ul></div>
+    <div class="sp-cta"><a href="tel:+380738822980" class="btn-primary"><span>Замовити зараз</span></a><a href="https://t.me/ARESSecurit" target="_blank" class="btn-primary" style="border-color:#29abe2;color:#29abe2"><span>Написати в Telegram</span></a></div>
   </div>
 </div>
 
+<script>
+// Cursor
+var cur = document.getElementById('cursor');
+var ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', function(e) {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top = e.clientY + 'px';
+  ring.style.left = e.clientX + 'px';
+  ring.style.top = e.clientY + 'px';
+});
+if ('ontouchstart' in window) {
+  cur.style.display = 'none';
+  ring.style.display = 'none';
+  document.body.style.cursor = 'auto';
+}
+
+// Burger menu
+var burger = document.getElementById('burger');
+var overlay = document.getElementById('overlay');
+var sideMenu = document.getElementById('sideMenu');
+function openMenu() { burger.classList.add('open'); overlay.classList.add('open'); sideMenu.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMenu() { burger.classList.remove('open'); overlay.classList.remove('open'); sideMenu.classList.remove('open'); document.body.style.overflow = ''; }
+burger.addEventListener('click', function() { sideMenu.classList.contains('open') ? closeMenu() : openMenu(); });
+overlay.addEventListener('click', closeMenu);
+document.querySelectorAll('.menu-link').forEach(function(l) { l.addEventListener('click', closeMenu); });
+
+// Nav scroll
+var nav = document.getElementById('mainNav');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 60) {
+    nav.style.background = 'rgba(10,10,10,0.95)';
+    nav.style.backdropFilter = 'blur(12px)';
+    nav.style.borderBottom = '1px solid rgba(201,168,76,0.12)';
+  } else {
+    nav.style.background = 'linear-gradient(to bottom,rgba(10,10,10,.9),transparent)';
+    nav.style.backdropFilter = 'none';
+    nav.style.borderBottom = 'none';
+  }
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+// Reveal on scroll
+var revealEls = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(function(el) { observer.observe(el); });
+
+// Progress bars
+var fills = document.querySelectorAll('.progress-fill');
+var fillObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      var el = e.target;
+      setTimeout(function() { el.style.width = el.dataset.width + '%'; }, 200);
+      fillObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.3 });
+fills.forEach(function(f) { fillObs.observe(f); });
+
+// Service pages
+function openPage(id) {
+  var p = document.getElementById(id);
+  if (p) { p.classList.add('active'); document.body.style.overflow = 'hidden'; p.scrollTop = 0; }
+}
+function closePage() {
+  document.querySelectorAll('.service-page').forEach(function(p) { p.classList.remove('active'); });
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closePage(); });
+
+// Form submit with Telegram
+function submitForm() {
+  var name    = document.getElementById('f-name').value.trim();
+  var phone   = document.getElementById('f-phone').value.trim();
+  var service = document.getElementById('f-service').value;
+  var comment = document.getElementById('f-comment').value.trim();
+  if (!name || !phone || !service) { alert('Будь ласка, заповніть ім\'я, телефон та оберіть послугу.'); return; }
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Відправляємо...';
+  var BOT = '8913538423:AAFSB0cckRKokPJdRwJ1sUpulEhdgwNCrRg';
+  var CID = '8609439707';
+  var text = '\uD83D\uDEE1 <b>Нова заявка \u2014 ARES Security Group</b>\n\n\uD83D\uDC64 <b>\u0406\u043c\u2019\u044f:</b> ' + name + '\n\uD83D\uDCDE <b>\u0422\u0435\u043b\u0435\u0444\u043e\u043d:</b> ' + phone + '\n\uD83D\uDD12 <b>\u041f\u043e\u0441\u043b\u0443\u0433\u0430:</b> ' + service + '\n\uD83D\uDCAC <b>\u041A\u043e\u043c\u0435\u043d\u0442\u0430\u0440:</b> ' + (comment || '\u043d\u0435 \u0432\u043a\u0430\u0437\u0430\u043d\u043e');
+  fetch('https://api.telegram.org/bot' + BOT + '/sendMessage', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: CID, text: text, parse_mode: 'HTML' })
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.ok) {
+      document.getElementById('orderForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else {
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Відправити заявку';
+      alert('Помилка відправки. Зателефонуйте нам напряму.');
+    }
+  }).catch(function() {
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Відправити заявку';
+    alert('Помилка з\'єднання. Зателефонуйте нам напряму.');
+  });
+}
+</script>
 </body>
 </html>
